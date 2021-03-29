@@ -1,3 +1,3 @@
-# One-layer neural network from scratch 
+# nn-blocks
 
-Training and testing a one layer network with multiple outputs to classify images from the CIFAR-10 dataset.
+Training and testing deep neural networks and utilizing deep learning best practices for multi-class classification on the CIFAR-10 dataset. From scratch, without dedicated deep learning packages.
