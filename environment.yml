@@ -48,6 +48,7 @@ dependencies:
   - idna=2.10=pyhd3eb1b0_0
   - importlib-metadata=3.7.3=py38h06a4308_1
   - importlib_metadata=3.7.3=hd3eb1b0_1
+  - iniconfig=1.1.1=pyhd3eb1b0_0
   - intel-openmp=2020.2=254
   - ipykernel=5.3.4=py38h5ca1d4c_0
   - ipython=7.21.0=py38hb070fc8_0
@@ -92,6 +93,7 @@ dependencies:
   - mkl-service=2.3.0=py38he904b0f_0
   - mkl_fft=1.3.0=py38h54f3939_0
   - mkl_random=1.1.1=py38h0573a6f_0
+  - more-itertools=8.7.0=pyhd3eb1b0_0
   - multidict=5.1.0=py38h27cfd23_2
   - nbclient=0.5.3=pyhd3eb1b0_0
   - nbconvert=6.0.7=py38_0
@@ -114,11 +116,13 @@ dependencies:
   - pickleshare=0.7.5=pyhd3eb1b0_1003
   - pillow=8.1.2=py38he98fc37_0
   - pip=21.0.1=py38h06a4308_0
+  - pluggy=0.13.1=py38h06a4308_0
   - prometheus_client=0.9.0=pyhd3eb1b0_0
   - prompt-toolkit=3.0.17=pyh06a4308_0
   - prompt_toolkit=3.0.17=hd3eb1b0_0
   - protobuf=3.14.0=py38h2531618_1
   - ptyprocess=0.7.0=pyhd3eb1b0_2
+  - py=1.10.0=pyhd3eb1b0_0
   - pyasn1=0.4.8=py_0
   - pyasn1-modules=0.2.8=py_0
   - pycparser=2.20=py_2
@@ -129,6 +133,7 @@ dependencies:
   - pyqt=5.9.2=py38h05f1152_4
   - pyrsistent=0.17.3=py38h7b6447c_0
   - pysocks=1.7.1=py38h06a4308_0
+  - pytest=6.2.2=py38h06a4308_2
   - python=3.8.8=hdb3f193_4
   - python-dateutil=2.8.1=pyhd3eb1b0_0
   - python-flatbuffers=1.12=pyhd3eb1b0_0
@@ -158,6 +163,7 @@ dependencies:
   - testpath=0.4.4=pyhd3eb1b0_0
   - threadpoolctl=2.1.0=pyh5ca1d4c_0
   - tk=8.6.10=hbc83047_0
+  - toml=0.10.2=pyhd3eb1b0_0
   - tornado=6.1=py38h27cfd23_0
   - tqdm=4.59.0=pyhd3eb1b0_1
   - traitlets=5.0.5=pyhd3eb1b0_0
