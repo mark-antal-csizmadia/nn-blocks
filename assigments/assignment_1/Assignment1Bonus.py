@@ -1015,10 +1015,10 @@ def main():
 
     # smax + cross entropy first
     hyperparams_dict = [
-        {"reg_rate_l2": 0.1, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.001},
-        {"reg_rate_l2": 0.2, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.001},
-        {"reg_rate_l2": 0.4, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.001},
-        {"reg_rate_l2": 0.6, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.001},
+        {"reg_rate_l2": 0.1, "n_epochs": 80, "batch_size": 100, "lr_initial": 0.001},
+        {"reg_rate_l2": 0.1, "n_epochs": 80, "batch_size": 100, "lr_initial": 0.0001},
+        #{"reg_rate_l2": 0.4, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.001},
+        #{"reg_rate_l2": 0.6, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.001},
     ]
 
     results_list_of_dicts = []
@@ -1039,10 +1039,10 @@ def main():
 
     # linear + hinge loss second
     hyperparams_dict = [
-        {"reg_rate_l2": 0.5, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.0001},
-        {"reg_rate_l2": 0.5, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.0001},
-        {"reg_rate_l2": 0.8, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.0001},
-        {"reg_rate_l2": 0.8, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.0001},
+        {"reg_rate_l2": 0.1, "n_epochs": 80, "batch_size": 100, "lr_initial": 0.0001},
+        {"reg_rate_l2": 0.1, "n_epochs": 80, "batch_size": 100, "lr_initial": 0.0001},
+        #{"reg_rate_l2": 0.1, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.0001},
+        #{"reg_rate_l2": 0.1, "n_epochs": 60, "batch_size": 100, "lr_initial": 0.0001},
     ]
 
     results_list_of_dicts = []
