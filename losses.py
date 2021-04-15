@@ -3,10 +3,7 @@ from copy import deepcopy
 
 
 class Loss():
-    """
-    Loss parent class.
-
-    ...
+    """ Loss parent class.
 
     Attributes
     ----------
@@ -35,13 +32,10 @@ class Loss():
 
 
 class CategoricalHingeLoss(Loss):
-    """
-    Categorical Hinge loss for realizing an SVM classifier.
+    """ Categorical Hinge loss for realizing an SVM classifier.
     Usually preceeded by a linear activation.
     For multi-class classification.
     Inherits everything from class Loss.
-
-    ...
 
     Attributes
     ----------
@@ -146,13 +140,10 @@ class CategoricalHingeLoss(Loss):
 
 
 class CategoricalCrossEntropyLoss(Loss):
-    """
-    Categorical cross-entropy loss.
+    """ Categorical cross-entropy loss.
     Usually preceeded by a linear activation.
     For multi-class classification.
     Inherits everything from class Loss.
-
-    ...
 
     Attributes
     ----------
@@ -170,6 +161,17 @@ class CategoricalCrossEntropyLoss(Loss):
     """
 
     def __init__(self, ):
+        """ Constructor.
+
+        Parameters
+        ----------
+        None
+
+
+        Notes
+        -----
+        None
+        """
         super().__init__()
 
     def compute_loss(self, scores, y, layers_reg_loss):

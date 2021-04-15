@@ -3,9 +3,7 @@ from copy import deepcopy
 
 
 class Activation():
-    """
-    Activation parent class.
-
+    """ Activation parent class.
 
     Attributes
     ----------
@@ -23,8 +21,7 @@ class Activation():
 
 
 class LinearActivation(Activation):
-    """
-    Linear activation.
+    """ Linear activation.
     Usually followed by CategoricalHingeLoss.
     Inherits everything from class Activation.
 
@@ -42,9 +39,21 @@ class LinearActivation(Activation):
         forward propagates activation. Activation is linear.
     backward(g)
         Backpropagates incoming gradient into the layer, based on the linear activation.
+    __repr__()
+        Returns the string representation of class.
     """
 
     def __init__(self, ):
+        """ Constructor.
+
+        Parameters
+        ----------
+        None
+
+        Notes
+        -----
+        None
+        """
         super().__init__()
 
     def forward(self, z):
@@ -93,7 +102,7 @@ class LinearActivation(Activation):
         return deepcopy(g)
 
     def __repr__(self):
-        """ Representation of class.
+        """ Returns the string representation of class.
 
         Parameters
         ----------
@@ -113,8 +122,7 @@ class LinearActivation(Activation):
 
 
 class ReLUActivation(Activation):
-    """
-    ReLU activation.
+    """ ReLU activation.
     Can be followed by virtually anything.
     Inherits everything from class Activation.
 
@@ -132,9 +140,21 @@ class ReLUActivation(Activation):
         forward propagates activation. Activation is rectified linear.
     backward(g)
         Backpropagates incoming gradient into the layer, based on the rectified linear activation.
+    __repr__()
+        Returns the string representation of class.
     """
 
     def __init__(self, ):
+        """ Constructor.
+
+        Parameters
+        ----------
+        None
+
+        Notes
+        -----
+        None
+        """
         super().__init__()
 
     def forward(self, z):
@@ -188,7 +208,7 @@ class ReLUActivation(Activation):
         return g_out
 
     def __repr__(self):
-        """ Representation of class.
+        """ Returns the string representation of class.
 
         Parameters
         ----------
@@ -208,8 +228,7 @@ class ReLUActivation(Activation):
 
 
 class SoftmaxActivation(Activation):
-    """
-    Softmax activation.
+    """ Softmax activation.
     Usually activation of last layer and forward propagates into a CategoricalCrossEntropyLoss.
     Inherits everything from class Activation.
 
@@ -227,9 +246,21 @@ class SoftmaxActivation(Activation):
         forward propagates activation. Activation is softmax.
     backward(g)
         Backpropagates incoming gradient into the layer, based on the softmax activation.
+    __repr__()
+        Returns the string representation of class.
     """
 
     def __init__(self, ):
+        """ Constructor.
+
+        Parameters
+        ----------
+        None
+
+        Notes
+        -----
+        None
+        """
         super().__init__()
 
     def forward(self, z):
@@ -300,7 +331,7 @@ class SoftmaxActivation(Activation):
         return g_out
 
     def __repr__(self):
-        """ Representation of class.
+        """ Returns the string representation of class.
 
         Parameters
         ----------
