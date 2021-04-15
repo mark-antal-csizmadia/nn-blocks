@@ -23,7 +23,6 @@ class Loss():
         ----------
         None
 
-
         Notes
         -----
         None
@@ -58,7 +57,6 @@ class CategoricalHingeLoss(Loss):
         Parameters
         ----------
         None
-
 
         Notes
         -----
