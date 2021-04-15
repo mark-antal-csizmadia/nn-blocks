@@ -290,6 +290,11 @@ class Model():
         Notes
         -----
         None
+
+        Raises
+        ------
+        AssertionError
+            If the model has not yet been complied with the self.compiled method.
         """
         assert self.compiled, "Model has to be compiled before fitting."
 

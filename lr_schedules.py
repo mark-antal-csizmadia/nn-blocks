@@ -16,7 +16,7 @@ class LRSchedule():
     Methods
     -------
     __init__()
-        Constuctor.
+        Constructor.
     """
 
     def __init__(self, lr_initial):
