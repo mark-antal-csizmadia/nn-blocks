@@ -51,7 +51,7 @@ class NormalInitializer(Initializer):
         Constuctor.
     initialize(size)
         Initializes parameters by drawing from a Normal distribution.
-    __repr__
+    __repr__()
         Returns the string representation of class.
     """
 

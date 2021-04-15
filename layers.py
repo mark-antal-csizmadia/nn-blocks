@@ -53,7 +53,7 @@ class Dense():
         Forward-propagates signals through the layer and its activation.
     backward(g_in)
         Back-propagates gradients through the the activation of the layer and then the layer.
-    __repr__
+    __repr__()
         Returns the string representation of class.
     """
 
@@ -260,8 +260,7 @@ class Dense():
             return self.kernel_regularizer.grad(self.w)
 
     def forward(self, x):
-        """
-        Forward-propagates signals through the layer and its activation.
+        """ Forward-propagates signals through the layer and its activation.
 
         Parameters
         ----------
@@ -288,8 +287,7 @@ class Dense():
         return a
 
     def backward(self, g_in):
-        """
-        Back-propagates gradients through the the activation of the layer and then the layer.
+        """ Back-propagates gradients through the the activation of the layer and then the layer.
 
         Parameters
         ----------

@@ -51,7 +51,7 @@ class L2Regularizer(Regularizer):
     grad(param)
         Computes the gradient of the regularization term with respect
         to param.
-    __repr__
+    __repr__()
         Returns the string representation of class.
     """
 
