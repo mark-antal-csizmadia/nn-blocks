@@ -112,7 +112,7 @@ class NormalInitializer(Initializer):
         -----
         None
         """
-        repr_str = "normal ~ " + f"{self.coeff} x N({self.mean}, {self.std}^2)"
+        repr_str = "normal ~ " + f"{self.coeff:.6f} x N({self.mean:.6f}, {self.std:.6f}^2)"
         return repr_str
 
 
@@ -208,5 +208,5 @@ class XavierInitializer(Initializer):
         -----
         None
         """
-        repr_str = "Xavier ~ " + f"{self.coeff} x N({self.mean}, {self.std}^2)"
+        repr_str = "Xavier ~ " + f"{self.coeff:.6f} x N({self.mean:.6f}, {self.std:.6f}^2)"
         return repr_str
