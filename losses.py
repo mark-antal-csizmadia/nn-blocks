@@ -64,7 +64,7 @@ class CategoricalHingeLoss(Loss):
         """
         super().__init__()
 
-    def compute_loss(self, scores, y, layers_reg_loss):
+    def compute_loss(self, scores, y):
         """ Computes loss of classifier - also includes the regularization losses from previous layers.
 
         Parameters
@@ -75,9 +75,6 @@ class CategoricalHingeLoss(Loss):
         y : numpy.ndarray
             True labels.
             Shape is (number of data points, )
-        layers_reg_loss : float
-            The regularization loss from previous layers to be included
-            in the overall loss.
 
         Returns
         -------
@@ -99,9 +96,7 @@ class CategoricalHingeLoss(Loss):
         margin = np.maximum(0, scores - correct_class_scores + 1)
         # do not consider correct class in loss
         margin[range(n), y] = 0
-        data_loss = margin.sum() / n
-
-        loss = data_loss + layers_reg_loss
+        loss = margin.sum() / n
 
         margin[margin > 0] = 1
         # valid_margin_count.shape = (batch size, )
@@ -172,7 +167,7 @@ class CategoricalCrossEntropyLoss(Loss):
         """
         super().__init__()
 
-    def compute_loss(self, scores, y, layers_reg_loss):
+    def compute_loss(self, scores, y):
         """ Computes loss of classifier - also includes the regularization losses from previous layers.
 
         Parameters
@@ -183,9 +178,6 @@ class CategoricalCrossEntropyLoss(Loss):
         y : numpy.ndarray
             True labels.
             Shape is (batch size, )
-        layers_reg_loss : float
-            The regularization loss from previous layers to be included
-            in the overall loss.
 
         Returns
         -------
@@ -203,8 +195,7 @@ class CategoricalCrossEntropyLoss(Loss):
         correct_logprobs = -np.log(scores[range(n), y])
 
         # compute the loss: average cross-entropy loss and regularization
-        data_loss = np.sum(correct_logprobs) / n
-        loss = data_loss + layers_reg_loss
+        loss = np.sum(correct_logprobs) / n
 
         return loss
 

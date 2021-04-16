@@ -23,6 +23,9 @@ class Model():
         The dictionary of the training and validation metric values over training.
     loss_dict : None or dict
         The dictionary of the training and validation loss values over training.
+    cost_dict : None or dict
+        The dictionary of the training and validation cost values over training.
+        Note that cost = data loss + regularization loss
     metrics : None or list
         The list of metrics for evaluating the model during training and validation over training.
     lr_dict : None or dict
@@ -73,6 +76,7 @@ class Model():
         self.loss = None
         self.metrics_dict = None
         self.loss_dict = None
+        self.cost_dict = None
         self.metrics = None
         self.lr_dict = None
 
@@ -252,6 +256,7 @@ class Model():
         metrics_val = {metric.name + "_val": [] for metric in metrics}
         self.metrics_dict = {**metrics_train, **metrics_val}
         self.loss_dict = {"loss_train": [], "loss_val": []}
+        self.cost_dict = {"cost_train": [], "cost_val": []}
         self.metrics = metrics
 
         self.lr_dict = {"lr": []}
@@ -319,7 +324,9 @@ class Model():
                 scores = self.forward(x_batch)
 
                 layers_reg_loss = self.get_reg_loss()
-                l = self.loss.compute_loss(scores, y_batch, layers_reg_loss)
+                data_loss = self.loss.compute_loss(scores, y_batch)
+
+                cost = data_loss + layers_reg_loss
 
                 self.backward(self.loss.grad())
 
@@ -334,8 +341,9 @@ class Model():
 
             scores_train = self.forward(x_train)
 
-            layers_reg_loss = self.get_reg_loss()
-            l_train = self.loss.compute_loss(scores_train, y_train, layers_reg_loss)
+            layers_reg_loss_train = self.get_reg_loss()
+            data_loss_train = self.loss.compute_loss(scores_train, y_train)
+            cost_train = data_loss_train + layers_reg_loss_train
 
             y_hat_train = np.argmax(scores_train, axis=1)
 
@@ -343,17 +351,20 @@ class Model():
 
             scores_val = self.forward(x_val)
 
-            layers_reg_loss = self.get_reg_loss()
-            l_val = self.loss.compute_loss(scores_val, y_val, layers_reg_loss)
+            layers_reg_loss_val = self.get_reg_loss()
+            data_loss_val = self.loss.compute_loss(scores_val, y_val)
+            cost_val = data_loss_val + layers_reg_loss_val
 
             # n_val = y_val.shape[0]
             y_hat_val = np.argmax(scores_val, axis=1)
 
-            self.loss_dict["loss_train"].append(l_train)
-            self.loss_dict["loss_val"].append(l_val)
+            self.loss_dict["loss_train"].append(data_loss_train)
+            self.loss_dict["loss_val"].append(data_loss_val)
+            self.cost_dict["cost_train"].append(cost_train)
+            self.cost_dict["cost_val"].append(cost_val)
 
-            train_str = f"train loss = {l_train}"  # ", train acc = {acc_train}"
-            val_str = f"val loss = {l_val}"
+            train_str = f"train loss = {data_loss_train} / train cost = {cost_train}"
+            val_str = f"val loss = {data_loss_val} / val cost = {cost_val}"
 
             for metrics in self.metrics:
                 metrics_value_train = metrics.get_metrics(y_train, y_hat_train)
@@ -373,7 +384,7 @@ class Model():
 
             # self.optimizer.apply_lr_schedule()
 
-        return {**self.metrics_dict, **self.loss_dict, **self.lr_dict}
+        return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
 
     def __repr__(self, ):
         """ Returns the string representation of class.

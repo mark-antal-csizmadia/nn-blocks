@@ -13,9 +13,8 @@ def test_categoical_cross_entropy_loss():
     y = np.array([2])
 
     categoical_cross_entropy_loss = CategoricalCrossEntropyLoss()
-    layers_reg_loss = 0
 
-    loss = categoical_cross_entropy_loss.compute_loss(scores, y, layers_reg_loss)
+    loss = categoical_cross_entropy_loss.compute_loss(scores, y)
     np.testing.assert_almost_equal(loss, 1.04, decimal=2)
 
     loss_grad_true = deepcopy(y)
@@ -34,10 +33,9 @@ def test_categoical_cross_entropy_loss():
 
     y = np.random.randint(low=0, high=out_dim, size=(batch_size,))
 
-    layers_reg_loss = 0
     categoical_cross_entropy_loss = CategoricalCrossEntropyLoss()
 
-    loss = categoical_cross_entropy_loss.compute_loss(scores, y, layers_reg_loss)
+    loss = categoical_cross_entropy_loss.compute_loss(scores, y)
 
     n = y.shape[0]
 
@@ -45,9 +43,7 @@ def test_categoical_cross_entropy_loss():
     correct_logprobs = -np.log(scores[range(n), y])
 
     # compute the loss: average cross-entropy loss and regularization
-    data_loss = np.sum(correct_logprobs) / n
-
-    loss_true = data_loss + layers_reg_loss
+    loss_true = np.sum(correct_logprobs) / n
 
     np.testing.assert_almost_equal(loss, loss_true)
 
@@ -68,9 +64,8 @@ def test_categorical_hinge_loss():
     y = np.array([2])
 
     categoical_hinge_loss = CategoricalHingeLoss()
-    layers_reg_loss = 0
 
-    loss = categoical_hinge_loss.compute_loss(scores, y, layers_reg_loss)
+    loss = categoical_hinge_loss.compute_loss(scores, y)
     np.testing.assert_almost_equal(loss, 1.58, decimal=2)
 
     loss_grad = categoical_hinge_loss.grad()
@@ -80,9 +75,7 @@ def test_categorical_hinge_loss():
     correct_class_scores = scores[range(n), y].reshape(n, 1)
     margin = np.maximum(0, scores - correct_class_scores + 1)
     margin[range(n), y] = 0  # do not consider correct class in loss
-    data_loss = margin.sum() / n
-
-    loss = data_loss + layers_reg_loss
+    loss = margin.sum() / n
 
     margin[margin > 0] = 1
     valid_margin_count = margin.sum(axis=1)
@@ -104,10 +97,9 @@ def test_categorical_hinge_loss():
 
     y = np.random.randint(low=0, high=out_dim, size=(batch_size,))
 
-    layers_reg_loss = 0
     categoical_hinge_loss = CategoricalHingeLoss()
 
-    loss = categoical_hinge_loss.compute_loss(scores, y, layers_reg_loss)
+    loss = categoical_hinge_loss.compute_loss(scores, y)
 
     n = y.shape[0]
 
@@ -117,9 +109,7 @@ def test_categorical_hinge_loss():
     correct_class_scores = scores[range(n), y].reshape(n, 1)
     margin = np.maximum(0, scores - correct_class_scores + 1)
     margin[range(n), y] = 0  # do not consider correct class in loss
-    data_loss = margin.sum() / n
-
-    loss_true = data_loss + layers_reg_loss
+    loss_true = margin.sum() / n
 
     margin[margin > 0] = 1
     valid_margin_count = margin.sum(axis=1)
@@ -127,8 +117,6 @@ def test_categorical_hinge_loss():
     margin[range(n), y] -= valid_margin_count
     margin /= n
     loss_grad_true = deepcopy(margin)
-
-    loss_true = data_loss + layers_reg_loss
 
     np.testing.assert_almost_equal(loss, loss_true)
 
