@@ -126,5 +126,5 @@ class L2Regularizer(Regularizer):
         -----
         None
         """
-        repr_str = "l2"
+        repr_str = f"l2 with {self.reg_rate:.4e}"
         return repr_str

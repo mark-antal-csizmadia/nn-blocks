@@ -155,8 +155,11 @@ class SGDOptimizer(Optimizer):
             dw = grad_dict["dw"]
             db = grad_dict["db"]
 
-            w -= self.lr * dw
-            b -= self.lr * db
+            if w is None and b is None and dw is None and db is None:
+                pass
+            else:
+                w -= self.lr * dw
+                b -= self.lr * db
 
             trainable_weight_dict["w"] = deepcopy(w)
             trainable_weight_dict["b"] = deepcopy(b)

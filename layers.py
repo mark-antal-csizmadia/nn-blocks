@@ -32,7 +32,7 @@ class Dense():
     Methods
     -------
     __init__(in_dim, out_dim, kernel_initializer, bias_initializer, kernel_regularizer, activation)
-        Constuctor.
+        Constructor.
     get_w()
         Returns the weight parameters.
     get_b()
@@ -94,6 +94,26 @@ class Dense():
 
         self.cache = {}
         self.grads = {}
+
+        self.has_learnable_params = True
+
+    def if_has_learnable_params(self, ):
+        """ Returns if the layer has learnable params. Dense layer does have learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        has_learnable_params
+            True if the layer has learnable params.
+
+        Notes
+        -----
+        None
+        """
+        return self.has_learnable_params
 
     def get_w(self, ):
         """ Returns the weight parameters.
@@ -259,13 +279,15 @@ class Dense():
         else:
             return self.kernel_regularizer.grad(self.w)
 
-    def forward(self, x):
+    def forward(self, x, **params):
         """ Forward-propagates signals through the layer and its activation.
 
         Parameters
         ----------
         x : numpy.ndarray
             Input data to layer of shape (batch_size, in_dim).
+        params : dict
+            Dict of params for forward pass such as train or test mode, seed, etc. Unused in Dense layer.
 
         Returns
         -------
@@ -286,13 +308,15 @@ class Dense():
 
         return a
 
-    def backward(self, g_in):
+    def backward(self, g_in, **params):
         """ Back-propagates gradients through the the activation of the layer and then the layer.
 
         Parameters
         ----------
         g_in : numpy.ndarray
             Incoming (from later layers or losses) gradients, of shape (batch_size, out_dim).
+        params : dict
+            Dict of params for forward pass such as train or test mode, seed, etc. Unused in Dense layer.
 
         Returns
         -------
@@ -341,7 +365,8 @@ class Dense():
         None
         """
         repr_str = "dense: \n" \
-                   + "\t w -- init:" + self.kernel_initializer.__repr__() \
+                   + f"\t shape -- in: {self.in_dim}, out: {self.out_dim}\n" \
+                   + "\t w -- init: " + self.kernel_initializer.__repr__() \
                    + ", reg: " + self.kernel_regularizer.__repr__() + "\n" \
                    + "\t b -- init: " + self.bias_initializer.__repr__() + "\n" \
                    + "\t activation: " + self.activation.__repr__() + "\n"

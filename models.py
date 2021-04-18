@@ -80,7 +80,7 @@ class Model():
         self.metrics = None
         self.lr_dict = None
 
-    def forward(self, x):
+    def forward(self, x, **params):
         """ Forward propagates signal through the model.
 
         Parameters
@@ -88,6 +88,8 @@ class Model():
         x : numpy.ndarray
             Input data to model, shape is (batch_size, in_dim)
             where in_dim is the input dimension of the first layer of the model.
+        params : dict
+            Dict of params for forward pass such as train or test mode, seed, etc.
 
         Returns
         -------
@@ -106,13 +108,14 @@ class Model():
         self.reg_loss = 0.0
 
         for layer in self.layers:
-            scores_temp = layer.forward(scores)
+            scores_temp = layer.forward(scores, **params)
             scores = deepcopy(scores_temp)
-            self.reg_loss += layer.get_reg_loss_w()
+            if layer.if_has_learnable_params():
+                self.reg_loss += layer.get_reg_loss_w()
 
         return scores
 
-    def backward(self, y):
+    def backward(self, y, **params):
         """ Back-propagates signal through the model.
 
         Parameters
@@ -131,7 +134,7 @@ class Model():
         g = deepcopy(y)
 
         for layer in list(reversed(self.layers)):
-            g_temp = layer.backward(g)
+            g_temp = layer.backward(g, **params)
             g = deepcopy(g_temp)
 
     def get_reg_loss(self, ):
@@ -172,8 +175,11 @@ class Model():
         """
         grads = []
         for idx, layer in enumerate(self.layers):
-            dw = layer.get_dw()
-            db = layer.get_db()
+            if layer.if_has_learnable_params():
+                dw = layer.get_dw()
+                db = layer.get_db()
+            else:
+                dw, db = None, None
             grads.append({"dw": deepcopy(dw), "db": deepcopy(db)})
 
         return deepcopy(grads)
@@ -198,8 +204,11 @@ class Model():
         """
         trainable_weights = []
         for idx, layer in enumerate(self.layers):
-            w = layer.get_w()
-            b = layer.get_b()
+            if layer.if_has_learnable_params():
+                w = layer.get_w()
+                b = layer.get_b()
+            else:
+                w, b = None, None
             trainable_weights.append({"w": deepcopy(w), "b": deepcopy(b)})
 
         return deepcopy(trainable_weights)
@@ -226,8 +235,11 @@ class Model():
             trainable_weight_dict = deepcopy(trainable_weights[idx])
             w = trainable_weight_dict["w"]
             b = trainable_weight_dict["b"]
-            layer.set_w(deepcopy(w))
-            layer.set_b(deepcopy(b))
+            if layer.if_has_learnable_params():
+                layer.set_w(deepcopy(w))
+                layer.set_b(deepcopy(b))
+            else:
+                pass
 
     def compile_model(self, optimizer, loss, metrics):
         """ Compiles the model.
@@ -270,13 +282,13 @@ class Model():
         ----------
         x_train : numpy.ndarray
             Training data to model of shape (batch_size, in_dim) where in_dim is
-            the input dimension of the first layer of the first layer.
+            the input dimension of the first layer of the Model.
         y_train : numpy.ndarray
             True labels of training data.
             Shape is (batch_size, )
         x_val : numpy.ndarray
             Validation data to model of shape (batch_size, in_dim) where in_dim is
-            the input dimension of the first layer of the first layer.
+            the input dimension of the first layer of the Model.
         y_val : numpy.ndarray
             True labels of validation data.
             Shape is (batch_size, )
@@ -316,19 +328,23 @@ class Model():
 
             batches = tqdm(range(n_batch), file=sys.stdout)
 
+            params_train = {"mode": "train", "seed": None}
+
             for b in batches:
                 batches.set_description(f"batch {b + 1}/{n_batch}")
                 x_batch = x_train[b * batch_size:(b + 1) * batch_size]
                 y_batch = y_train[b * batch_size:(b + 1) * batch_size]
 
-                scores = self.forward(x_batch)
+                """scores = self.forward(x_batch, **params_train)
 
                 layers_reg_loss = self.get_reg_loss()
                 data_loss = self.loss.compute_loss(scores, y_batch)
 
-                cost = data_loss + layers_reg_loss
+                cost = data_loss + layers_reg_loss"""
 
-                self.backward(self.loss.grad())
+                y_hat, scores, cost, data_loss, layers_reg_loss = self.predict(x_batch, y_batch, **params_train)
+
+                self.backward(self.loss.grad(), **params_train)
 
                 trainable_weights = \
                     self.optimizer.apply_grads(trainable_weights=self.get_trainable_weights(),
@@ -339,24 +355,31 @@ class Model():
                 # should I do it here?
                 self.optimizer.apply_lr_schedule()
 
-            scores_train = self.forward(x_train)
+            params_test = {"mode": "test", "seed": None}
+
+            """scores_train = self.forward(x_train, **params_test)
 
             layers_reg_loss_train = self.get_reg_loss()
             data_loss_train = self.loss.compute_loss(scores_train, y_train)
             cost_train = data_loss_train + layers_reg_loss_train
 
-            y_hat_train = np.argmax(scores_train, axis=1)
+            y_hat_train = np.argmax(scores_train, axis=1)"""
+            y_hat_train, scores_train, cost_train, data_loss_train, layers_reg_loss_train = \
+                self.predict(x_train, y_train, **params_test)
 
             # acc_train = self.metrics.accuracy.get_accuracy(y_train, y_hat_train)
 
-            scores_val = self.forward(x_val)
+            """scores_val = self.forward(x_val, **params_test)
 
             layers_reg_loss_val = self.get_reg_loss()
             data_loss_val = self.loss.compute_loss(scores_val, y_val)
             cost_val = data_loss_val + layers_reg_loss_val
 
             # n_val = y_val.shape[0]
-            y_hat_val = np.argmax(scores_val, axis=1)
+            y_hat_val = np.argmax(scores_val, axis=1)"""
+
+            y_hat_val, scores_val, cost_val, data_loss_val, layers_reg_loss_val = \
+                self.predict(x_val, y_val, **params_test)
 
             self.loss_dict["loss_train"].append(data_loss_train)
             self.loss_dict["loss_val"].append(data_loss_val)
@@ -385,6 +408,54 @@ class Model():
             # self.optimizer.apply_lr_schedule()
 
         return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
+
+    def predict(self, x, y, **params):
+        """ Predicts labels for a given data set x, and computes the scores, data loss, and cost of the prediction,
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            Data of shape (batch_size, in_dim) where in_dim is
+            the input dimension of the first layer of the Model.
+        y : numpy.ndarray
+            True labels of data.
+            Shape is (batch_size, )
+        params : dict
+            Dict of params for forward pass such as train or test mode, seed, etc.
+
+        Returns
+        -------
+        y_hat : numpy.ndarray
+            Predicted/inferred labels of data.
+            Shape is (batch_size, )
+        scores : numpy.ndarray
+            Activation of last layer of the model - the scores of the network.
+            Shape is (batch_size, out_dim) where out_dim is the output
+            dimension of the last layer of the model - usually same as
+            the number of classes.
+        cost : float
+            Cost of prediction. Note that cost = data_loss + layers_reg_loss
+        data_loss : float
+            Data loss of prediction.
+        layers_reg_loss : float
+            The regularization loss from the layers of the model.
+
+        Notes
+        -----
+        None
+
+        Raises
+        ------
+        AssertionError
+            If the model has not yet been complied with the self.compiled method.
+        """
+        scores = self.forward(x, **params)
+        layers_reg_loss = self.get_reg_loss()
+        data_loss = self.loss.compute_loss(scores, y)
+        cost = data_loss + layers_reg_loss
+        y_hat = np.argmax(scores, axis=1)
+
+        return y_hat, scores, cost, data_loss, layers_reg_loss
 
     def __repr__(self, ):
         """ Returns the string representation of class.
