@@ -371,3 +371,47 @@ class Dense():
                    + "\t b -- init: " + self.bias_initializer.__repr__() + "\n" \
                    + "\t activation: " + self.activation.__repr__() + "\n"
         return repr_str
+
+
+class Dropout():
+    """ Inv dropout - scaling at train time"""
+
+    def __init__(self, p):
+        self.p = p
+        self.cache = {}
+        self.has_learnable_params = False
+
+    def if_has_learnable_params(self, ):
+        return self.has_learnable_params
+
+    def forward(self, x, **params):
+        mode = params["mode"]
+        seed = params["seed"]
+        assert mode in ["train", "test"]
+
+        if mode == "train":
+            np.random.seed(seed)
+            mask = (np.random.rand(*x.shape) < self.p) / self.p
+            self.cache["mask"] = deepcopy(mask)
+            # drop it boi!
+            out = x * mask
+        else:
+            out = x
+
+        return deepcopy(out)
+
+    def backward(self, g_in, **params):
+        mode = params["mode"]
+        assert mode in ["train", "test"]
+
+        if mode == "train":
+            mask = deepcopy(self.cache["mask"])
+            g_out = g_in * mask
+        else:
+            g_out = deepcopy(g_in)
+
+        return g_out
+
+    def __repr__(self, ):
+        repr_str = f"dropout with p={self.p}"
+        return repr_str
