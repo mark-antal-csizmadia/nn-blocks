@@ -415,3 +415,75 @@ class Dropout():
     def __repr__(self, ):
         repr_str = f"dropout with p={self.p}"
         return repr_str
+
+
+class BatchNormalization():
+    def __init__(self, momentum=0.99, epsilon=10e-6):
+        self.momentum = momentum
+        self.epsilon = epsilon
+        # will be init at first computation
+        self.beta = None
+        self.gamma = None
+        self.moving_mean = None
+        self.moving_variance = None
+        self.cache = {}
+        self.grads = {}
+
+    def forward(self, x, **params):
+        """
+        x.shape = (batch_size, in_dim)
+        in_dim = out_dim of batch norm
+        """
+        mode = params["mode"]
+        assert mode in ["train", "test"]
+
+        in_dim = x.shape[1]
+        size = (in_dim,)
+
+        if self.moving_mean is None:
+            self.moving_mean = np.zeros(size)
+        if self.moving_variance is None:
+            self.moving_variance = np.zeros(size)
+        if self.beta is None:
+            # zeros based on Keras
+            self.beta = np.zeros(size)
+        if self.gamma is None:
+            # ones based on Keras
+            self.gamma = np.ones(size)
+
+        if mode == "train":
+            # batch mean and var and std, all of shape (in_dim, )?
+            mean = np.mean(x, axis=0)
+            var = np.var(x, axis=0)
+            std = np.sqrt(var)
+
+            # z transform (normalize) batch
+            z = (x - mean) / (std + self.epsilon)
+            # scale and shift batch with learnable params
+            a = self.gamma * z + self.beta
+
+            # moving averages of mean and variance
+            self.moving_mean = self.moving_mean + (1 - self.momentum) * mean
+            self.moving_variance = self.moving_variance + (1 - self.momentum) * var
+
+            self.cache["x"] = deepcopy(x)
+            self.cache["mean"] = deepcopy(mean)
+            self.cache["std"] = deepcopy(std)
+            self.cache["z"] = deepcopy(z)
+
+        else:
+            a = self.gamma * (x - self.moving_mean) / (np.sqrt(self.moving_variance) + self.epsilon) + self.beta
+
+        return a
+
+    def backward(self, g_in, **params):
+        """
+        g_in.shape = (batch_size, out_dim)
+        in_dim = out_dim of batch norm
+        """
+        mode = params["mode"]
+        assert mode in ["train", "test"]
+
+    def __repr__(self):
+        repr_str = f"batch norm with momentum {self.momentum}"
+        return repr_str
