@@ -21,7 +21,7 @@ class Optimizer():
         Returns the latest learning rate of the optimizer's learning rate schedule.
     """
 
-    def __init__(self, lr_schedule):
+    def __init__(self, lr_schedule, repr_str):
         """ Constructor.
 
         Parameters
@@ -35,6 +35,7 @@ class Optimizer():
         """
         self.lr_schedule = lr_schedule
         self.lr = self.lr_schedule.get_lr()
+        self.repr_str = repr_str
 
     def apply_lr_schedule(self, ):
         """ Applies the learning rate schedule of the optimizer.
@@ -72,6 +73,9 @@ class Optimizer():
         """
         return deepcopy(self.lr)
 
+    def __repr__(self):
+        return self.repr_str
+
 
 class SGDOptimizer(Optimizer):
     """ Stochastic gradient descent optimizer.
@@ -108,7 +112,8 @@ class SGDOptimizer(Optimizer):
         -----
         None
         """
-        super().__init__(lr_schedule)
+        repr_str = f"sgd with {lr_schedule.__repr__()}"
+        super().__init__(lr_schedule, repr_str)
 
     def apply_grads(self, trainable_weights, grads):
         """ Applies the gradient update rule to trainable weights using gradients.

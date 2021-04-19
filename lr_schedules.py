@@ -19,7 +19,7 @@ class LRSchedule():
         Constructor.
     """
 
-    def __init__(self, lr_initial):
+    def __init__(self, lr_initial, repr_str):
         """ Constructor.
 
         Parameters
@@ -34,6 +34,10 @@ class LRSchedule():
         self.lr_initial = lr_initial
         self.lr = self.lr_initial
         self.step = 0
+        self.repr_str = repr_str
+
+    def __repr__(self):
+        return self.repr_str
 
 
 class LRConstantSchedule(LRSchedule):
@@ -71,7 +75,8 @@ class LRConstantSchedule(LRSchedule):
         -----
         None
         """
-        super().__init__(lr_initial)
+        repr_str = "constant lr schedule"
+        super().__init__(lr_initial, repr_str)
 
     def apply_schedule(self, ):
         """ Applies the constant learning rate schedule.
@@ -152,7 +157,8 @@ class LRExponentialDecaySchedule(LRSchedule):
         -----
         None
         """
-        super().__init__(lr_initial)
+        repr_str = "exp. decay lr schedule"
+        super().__init__(lr_initial, repr_str)
         self.decay_steps = decay_steps
         self.decay_rate = decay_rate
 
@@ -248,7 +254,8 @@ class LRCyclingSchedule(LRSchedule):
         None
         """
         # self.lr_initial is lr_min, i.e.: the base lr
-        super().__init__(lr_initial)
+        repr_str = "cycling lr schedule"
+        super().__init__(lr_initial, repr_str)
         self.lr_max = lr_max
         self.step_size = step_size
 

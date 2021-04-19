@@ -2,6 +2,7 @@ import numpy as np
 from copy import deepcopy
 from tqdm import tqdm
 import sys
+import json
 
 
 class Model():
@@ -53,8 +54,6 @@ class Model():
         Fits the model to the data.
     __repr__()
         Returns the string representation of class.
-
-
     """
 
     def __init__(self, layers):
@@ -275,6 +274,21 @@ class Model():
 
         self.compiled = True
 
+    def compute_metrics(self, y, scores, postfix=None):
+        assert postfix in ["train", "val"] or postfix is None
+        metrics_dict = {}
+
+        for metrics in self.metrics:
+            metrics_value = metrics.compute(y, scores)
+            if postfix is not None:
+                key = metrics.name + "_" + postfix
+                self.metrics_dict[key].append(metrics_value)
+            else:
+                key = metrics.name
+            metrics_dict[key] = metrics_value
+
+        return metrics_dict
+
     def fit(self, x_train, y_train, x_val, y_val, n_epochs, batch_size):
         """ Fits the model to the data.
 
@@ -335,14 +349,11 @@ class Model():
                 x_batch = x_train[b * batch_size:(b + 1) * batch_size]
                 y_batch = y_train[b * batch_size:(b + 1) * batch_size]
 
-                """scores = self.forward(x_batch, **params_train)
+                scores = self.forward(x_batch, **params_train)
 
                 layers_reg_loss = self.get_reg_loss()
                 data_loss = self.loss.compute_loss(scores, y_batch)
-
-                cost = data_loss + layers_reg_loss"""
-
-                y_hat, scores, cost, data_loss, layers_reg_loss = self.predict(x_batch, y_batch, **params_train)
+                cost = data_loss + layers_reg_loss
 
                 self.backward(self.loss.grad(), **params_train)
 
@@ -352,54 +363,33 @@ class Model():
 
                 self.set_trainable_weights(trainable_weights)
 
-                # should I do it here?
+                # should I do it here? yes
                 self.optimizer.apply_lr_schedule()
 
+            self.lr_dict["lr"].append(self.optimizer.get_lr())
+
             params_test = {"mode": "test", "seed": None}
-
-            """scores_train = self.forward(x_train, **params_test)
-
+            scores_train = self.forward(x_train, **params_test)
             layers_reg_loss_train = self.get_reg_loss()
             data_loss_train = self.loss.compute_loss(scores_train, y_train)
             cost_train = data_loss_train + layers_reg_loss_train
 
-            y_hat_train = np.argmax(scores_train, axis=1)"""
-            y_hat_train, scores_train, cost_train, data_loss_train, layers_reg_loss_train = \
-                self.predict(x_train, y_train, **params_test)
-
-            # acc_train = self.metrics.accuracy.get_accuracy(y_train, y_hat_train)
-
-            """scores_val = self.forward(x_val, **params_test)
-
+            scores_val = self.forward(x_val, **params_test)
             layers_reg_loss_val = self.get_reg_loss()
             data_loss_val = self.loss.compute_loss(scores_val, y_val)
             cost_val = data_loss_val + layers_reg_loss_val
-
-            # n_val = y_val.shape[0]
-            y_hat_val = np.argmax(scores_val, axis=1)"""
-
-            y_hat_val, scores_val, cost_val, data_loss_val, layers_reg_loss_val = \
-                self.predict(x_val, y_val, **params_test)
 
             self.loss_dict["loss_train"].append(data_loss_train)
             self.loss_dict["loss_val"].append(data_loss_val)
             self.cost_dict["cost_train"].append(cost_train)
             self.cost_dict["cost_val"].append(cost_val)
-
             train_str = f"train loss = {data_loss_train} / train cost = {cost_train}"
             val_str = f"val loss = {data_loss_val} / val cost = {cost_val}"
 
-            for metrics in self.metrics:
-                metrics_value_train = metrics.get_metrics(y_train, y_hat_train)
-                self.metrics_dict[metrics.name + "_train"].append(metrics_value_train)
-                train_str += f", train {metrics.name} = {metrics_value_train}"
-
-                metrics_value_val = metrics.get_metrics(y_val, y_hat_val)
-                self.metrics_dict[metrics.name + "_val"].append(metrics_value_val)
-                val_str += f", val {metrics.name} = {metrics_value_val}"
-
-            self.lr_dict["lr"].append(self.optimizer.get_lr())
-            # acc_val = self.metrics.accuracy.get_accuracy(y_val, y_hat_val)
+            metrics_dict_train = self.compute_metrics(y_train, scores_train, postfix="train")
+            metrics_dict_val = self.compute_metrics(y_val, scores_val, postfix="val")
+            train_str += "\n\t -- " + json.dumps(metrics_dict_train)
+            val_str += "\n\t -- " + json.dumps(metrics_dict_val)
 
             print(f"epoch {n_epoch + 1}/{n_epochs} \n "
                   f"\t -- {train_str} \n"
@@ -408,54 +398,6 @@ class Model():
             # self.optimizer.apply_lr_schedule()
 
         return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
-
-    def predict(self, x, y, **params):
-        """ Predicts labels for a given data set x, and computes the scores, data loss, and cost of the prediction,
-
-        Parameters
-        ----------
-        x : numpy.ndarray
-            Data of shape (batch_size, in_dim) where in_dim is
-            the input dimension of the first layer of the Model.
-        y : numpy.ndarray
-            True labels of data.
-            Shape is (batch_size, )
-        params : dict
-            Dict of params for forward pass such as train or test mode, seed, etc.
-
-        Returns
-        -------
-        y_hat : numpy.ndarray
-            Predicted/inferred labels of data.
-            Shape is (batch_size, )
-        scores : numpy.ndarray
-            Activation of last layer of the model - the scores of the network.
-            Shape is (batch_size, out_dim) where out_dim is the output
-            dimension of the last layer of the model - usually same as
-            the number of classes.
-        cost : float
-            Cost of prediction. Note that cost = data_loss + layers_reg_loss
-        data_loss : float
-            Data loss of prediction.
-        layers_reg_loss : float
-            The regularization loss from the layers of the model.
-
-        Notes
-        -----
-        None
-
-        Raises
-        ------
-        AssertionError
-            If the model has not yet been complied with the self.compiled method.
-        """
-        scores = self.forward(x, **params)
-        layers_reg_loss = self.get_reg_loss()
-        data_loss = self.loss.compute_loss(scores, y)
-        cost = data_loss + layers_reg_loss
-        y_hat = np.argmax(scores, axis=1)
-
-        return y_hat, scores, cost, data_loss, layers_reg_loss
 
     def __repr__(self, ):
         """ Returns the string representation of class.
@@ -473,8 +415,11 @@ class Model():
         -----
         None
         """
+        assert self.compiled
         repr_str = "model summary: \n"
         for idx, layer in enumerate(self.layers):
             repr_str = repr_str + f"layer {idx}: " + layer.__repr__() + "\n"
+        repr_str += self.loss.__repr__() + "\n"
+        repr_str += self.optimizer.__repr__() + "\n"
 
         return repr_str

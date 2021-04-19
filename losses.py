@@ -16,7 +16,7 @@ class Loss():
         Constuctor.
     """
 
-    def __init__(self, ):
+    def __init__(self, name):
         """ Constructor.
 
         Parameters
@@ -28,6 +28,10 @@ class Loss():
         None
         """
         self.cache = {}
+        self.name = name
+
+    def __repr__(self):
+        return self.name
 
 
 class CategoricalHingeLoss(Loss):
@@ -62,7 +66,8 @@ class CategoricalHingeLoss(Loss):
         -----
         None
         """
-        super().__init__()
+        name = "categorical hinge loss"
+        super().__init__(name)
 
     def compute_loss(self, scores, y):
         """ Computes loss of classifier - also includes the regularization losses from previous layers.
@@ -165,7 +170,8 @@ class CategoricalCrossEntropyLoss(Loss):
         -----
         None
         """
-        super().__init__()
+        name = "categorical cross-entropy loss"
+        super().__init__(name)
 
     def compute_loss(self, scores, y):
         """ Computes loss of classifier - also includes the regularization losses from previous layers.

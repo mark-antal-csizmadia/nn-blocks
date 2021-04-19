@@ -56,7 +56,7 @@ class AccuracyMetrics(Metrics):
         super().__init__()
         self.name = "accuracy"
 
-    def get_metrics(self, y, y_hat):
+    def compute(self, y, scores):
         """ Computes the accuracy of inferred numerical labels when compared to their true counterparts.
 
         Parameters
@@ -64,9 +64,11 @@ class AccuracyMetrics(Metrics):
         y : numpy.ndarray
             True labels.
             Shape is (number of data points, )
-        y : numpy.ndarray
-            True labels.
-            Shape is (number of data points, )
+        scores : numpy.ndarray
+            Activation of last layer of the model - the scores of the network.
+            Shape is (batch_size, out_dim) where out_dim is the output
+            dimension of the last layer of the model - usually same as
+            the number of classes.
 
         Returns
         -------
@@ -82,7 +84,7 @@ class AccuracyMetrics(Metrics):
         AssertionError
             If y.shape is not the same as y_hat.shape
         """
+        y_hat = np.argmax(scores, axis=1)
         assert y.shape == y_hat.shape
-
         n = y.shape[0]
         return np.where(y_hat == y)[0].size / n

@@ -85,9 +85,6 @@ def grad_check_without_reg(model, loss, x, y, verbose, seed=None):
     # does not include w regularization in numerical grad computation
     assert x.shape[0] == y.shape[0], "x and y have different number of data points"
     print(f"starting grad check with {x.shape[0]} data points \n")
-    print(model)
-    print("\n")
-
     layer_n = len(model.layers)
 
     for layer_idx, trainable_weights_in_layer in enumerate(model.get_trainable_weights()):
