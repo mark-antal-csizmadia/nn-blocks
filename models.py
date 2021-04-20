@@ -44,9 +44,9 @@ class Model():
         Returns the overall regularization loss of the layers in the model.
     get_gradients()
         Returns the gradients of all parameters of all layers.
-    get_trainable_weights()
+    get_trainable_params()
         Returns all trainable parameters of all layers.
-    set_trainable_weights(trainable_weights)
+    set_trainable_params(trainable_params)
         Sets all trainable parameters of all layers.
     compile_model(optimizer, loss, metrics)
         Compiles the model.
@@ -110,7 +110,7 @@ class Model():
             scores_temp = layer.forward(scores, **params)
             scores = deepcopy(scores_temp)
             if layer.if_has_learnable_params():
-                self.reg_loss += layer.get_reg_loss_w()
+                self.reg_loss += layer.get_reg_loss()
 
         return scores
 
@@ -175,15 +175,16 @@ class Model():
         grads = []
         for idx, layer in enumerate(self.layers):
             if layer.if_has_learnable_params():
-                dw = layer.get_dw()
-                db = layer.get_db()
+                #dw = layer.get_dw()
+                #db = layer.get_db()
+                learnable_params_grads = layer.get_learnable_params_grads()
             else:
-                dw, db = None, None
-            grads.append({"dw": deepcopy(dw), "db": deepcopy(db)})
+                raise Exception("no grads yet")
+            grads.append(learnable_params_grads)
 
         return deepcopy(grads)
 
-    def get_trainable_weights(self, ):
+    def get_trainable_params(self, ):
         """ Returns all trainable parameters of all layers.
 
         Parameters
@@ -192,7 +193,7 @@ class Model():
 
         Returns
         -------
-        trainable_weights : list
+        trainable_params : list
             The list of dictionaries of the trainable parameters of all layers of the model.
             At idx is the dictionary of trainable parameters of layer idx in the self.layers list.
             A list has two keys - w and b.
@@ -201,23 +202,24 @@ class Model():
         -----
         Iterates over layers in ascending order in the self.layers list.
         """
-        trainable_weights = []
+        trainable_params = []
         for idx, layer in enumerate(self.layers):
             if layer.if_has_learnable_params():
-                w = layer.get_w()
-                b = layer.get_b()
+                #w = layer.get_w()
+                #b = layer.get_b()
+                learnable_params = layer.get_learnable_params()
             else:
-                w, b = None, None
-            trainable_weights.append({"w": deepcopy(w), "b": deepcopy(b)})
+                raise Exception("no trainable params")
+            trainable_params.append(learnable_params)
 
-        return deepcopy(trainable_weights)
+        return deepcopy(trainable_params)
 
-    def set_trainable_weights(self, trainable_weights):
+    def set_trainable_params(self, trainable_params):
         """ Sets all trainable parameters of all layers.
 
         Parameters
         ----------
-        trainable_weights : list
+        trainable_params : list
             The list of dictionaries of the trainable parameters of all layers of the model.
             At idx is the dictionary of trainable parameters of layer idx in the self.layers list.
             A list has two keys - w and b.
@@ -231,12 +233,13 @@ class Model():
         Iterates over layers in ascending order in the self.layers list.
         """
         for idx, layer in enumerate(self.layers):
-            trainable_weight_dict = deepcopy(trainable_weights[idx])
-            w = trainable_weight_dict["w"]
-            b = trainable_weight_dict["b"]
+            trainable_param_dict = deepcopy(trainable_params[idx])
+            #w = trainable_weight_dict["w"]
+            #b = trainable_weight_dict["b"]
             if layer.if_has_learnable_params():
-                layer.set_w(deepcopy(w))
-                layer.set_b(deepcopy(b))
+                #layer.set_w(deepcopy(w))
+                #layer.set_b(deepcopy(b))
+                layer.set_learnable_params(**trainable_param_dict)
             else:
                 pass
 
@@ -357,11 +360,11 @@ class Model():
 
                 self.backward(self.loss.grad(), **params_train)
 
-                trainable_weights = \
-                    self.optimizer.apply_grads(trainable_weights=self.get_trainable_weights(),
+                trainable_params = \
+                    self.optimizer.apply_grads(trainable_params=self.get_trainable_params(),
                                                grads=self.get_gradients())
 
-                self.set_trainable_weights(trainable_weights)
+                self.set_trainable_params(trainable_params)
 
                 # should I do it here? yes
                 self.optimizer.apply_lr_schedule()

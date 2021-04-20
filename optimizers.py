@@ -95,8 +95,8 @@ class SGDOptimizer(Optimizer):
         Applies the learning rate schedule of the optimizer.
     get_lr()
         Returns the latest learning rate of the optimizer's learning rate schedule.
-    apply_grads(trainable_weights, grads)
-        Applies the gradient update rule to trainable weights using gradients.
+    apply_grads(trainable_params, grads)
+        Applies the gradient update rule to trainable params using gradients.
     """
 
     def __init__(self, lr_schedule):
@@ -115,12 +115,12 @@ class SGDOptimizer(Optimizer):
         repr_str = f"sgd with {lr_schedule.__repr__()}"
         super().__init__(lr_schedule, repr_str)
 
-    def apply_grads(self, trainable_weights, grads):
-        """ Applies the gradient update rule to trainable weights using gradients.
+    def apply_grads(self, trainable_params, grads):
+        """ Applies the gradient update rule to trainable params using gradients.
 
         Parameters
         ----------
-        trainable_weights : list
+        trainable_params : list
             The list of dictionaries of the trainable parameters of all layers of a model.
             At idx is the dictionary of trainable parameters of layer idx in the Model.layers list.
             A list has two keys - w and b.
@@ -132,7 +132,7 @@ class SGDOptimizer(Optimizer):
 
         Returns
         -------
-        updated_trainable_weights : list
+        updated_trainable_params : list
             The list of dictionaries of the updated trainable parameters of all layers of a model.
             At idx is the dictionary of the updated trainable parameters of layer idx
             in the Model.layers list.
@@ -147,28 +147,15 @@ class SGDOptimizer(Optimizer):
         AssertionError
             If the lengths of trainable_weights and grads lists are not the same.
         """
-        updated_trainable_weights = deepcopy(trainable_weights)
+        updated_trainable_params = deepcopy(trainable_params)
 
-        assert len(trainable_weights) == len(grads)
+        assert len(trainable_params) == len(grads)
 
-        for idx in range(len(trainable_weights)):
-            trainable_weight_dict = deepcopy(trainable_weights[idx])
+        for idx in range(len(trainable_params)):
+            param_dict = deepcopy(trainable_params[idx])
             grad_dict = deepcopy(grads[idx])
 
-            w = trainable_weight_dict["w"]
-            b = trainable_weight_dict["b"]
-            dw = grad_dict["dw"]
-            db = grad_dict["db"]
+            for p, g in zip(param_dict, grad_dict):
+                updated_trainable_params[idx][p] = param_dict[p] - self.lr * grad_dict[g]
 
-            if w is None and b is None and dw is None and db is None:
-                pass
-            else:
-                w -= self.lr * dw
-                b -= self.lr * db
-
-            trainable_weight_dict["w"] = deepcopy(w)
-            trainable_weight_dict["b"] = deepcopy(b)
-
-            updated_trainable_weights[idx] = deepcopy(trainable_weight_dict)
-
-        return updated_trainable_weights
+        return deepcopy(updated_trainable_params)

@@ -151,6 +151,9 @@ class Dense():
         """
         return deepcopy(self.b)
 
+    def get_learnable_params(self):
+        return {"w": self.get_w(), "b": self.get_b()}
+
     def set_w(self, w):
         """ Sets the weight parameters.
 
@@ -186,6 +189,10 @@ class Dense():
         None
         """
         self.b = deepcopy(b)
+
+    def set_learnable_params(self, **learnable_params):
+        self.set_w(learnable_params["w"])
+        self.set_b(learnable_params["b"])
 
     def get_dw(self, ):
         """ Returns the gradients of weight parameters.
@@ -235,7 +242,10 @@ class Dense():
 
         return ret
 
-    def get_reg_loss_w(self, ):
+    def get_learnable_params_grads(self):
+        return {"dw": self.get_dw(), "db": self.get_db()}
+
+    def get_reg_loss(self, ):
         """ Returns the regularization loss of the weight parameters.
 
         Parameters
@@ -418,7 +428,7 @@ class Dropout():
 
 
 class BatchNormalization():
-    def __init__(self, momentum=0.99, epsilon=10e-6):
+    def __init__(self, momentum, epsilon):
         self.momentum = momentum
         self.epsilon = epsilon
         # will be init at first computation
@@ -429,10 +439,177 @@ class BatchNormalization():
         self.cache = {}
         self.grads = {}
 
+        self.has_learnable_params = True
+
+    def if_has_learnable_params(self, ):
+        """ Returns if the layer has learnable params. Dense layer does have learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        has_learnable_params
+            True if the layer has learnable params.
+
+        Notes
+        -----
+        None
+        """
+        return self.has_learnable_params
+
+    def get_gamma(self, ):
+        """ Returns the gamma parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The gamma parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.gamma)
+
+    def get_beta(self, ):
+        """ Returns the beta parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The beta parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.beta)
+
+    def get_learnable_params(self):
+        return {"gamma": self.get_gamma(), "beta": self.get_beta()}
+
+    def set_gamma(self, gamma):
+        """ Sets the gamma parameters.
+
+        Parameters
+        ----------
+        gamma : numpy.ndarray
+            The gamma parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.gamma = deepcopy(gamma)
+
+    def set_beta(self, beta):
+        """ Sets the beta parameters.
+
+        Parameters
+        ----------
+        beta : numpy.ndarray
+            The beta parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.beta = deepcopy(beta)
+
+    def set_learnable_params(self, **learnable_params):
+        self.set_gamma(learnable_params["gamma"])
+        self.set_beta(learnable_params["beta"])
+
+    def get_dgamma(self, ):
+        """ Returns the gradients of gamma parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of gamma parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "dgamma" in self.grads.keys():
+            dgamma = self.grads["dgamma"]
+            ret = deepcopy(dgamma)
+        else:
+            ret = None
+
+        return ret
+
+    def get_dbeta(self, ):
+        """ Returns the gradients of beta parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of beta parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "dbeta" in self.grads.keys():
+            dbeta = self.grads["dbeta"]
+            ret = deepcopy(dbeta)
+        else:
+            ret = None
+
+        return ret
+
+    def get_learnable_params_grads(self):
+        return {"dgamma": self.get_dgamma(), "dbeta": self.get_dbeta()}
+
+    def get_reg_loss(self, ):
+        """ Returns the regularization loss of the weight parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        float
+            The regularization loss of the weight parameters
+
+        Notes
+        -----
+        None
+        """
+        return 0.0
+
     def forward(self, x, **params):
         """
         x.shape = (batch_size, in_dim)
-        in_dim = out_dim of batch norm
         """
         mode = params["mode"]
         assert mode in ["train", "test"]
@@ -453,26 +630,28 @@ class BatchNormalization():
 
         if mode == "train":
             # batch mean and var and std, all of shape (in_dim, )?
-            mean = np.mean(x, axis=0)
-            var = np.var(x, axis=0)
-            std = np.sqrt(var)
+            mean_batch = np.mean(x, axis=0)
+            var_batch = np.var(x, axis=0)
+            std_batch = np.sqrt(var_batch + self.epsilon)
 
             # z transform (normalize) batch
-            z = (x - mean) / (std + self.epsilon)
+            z = (x - mean_batch) / std_batch
             # scale and shift batch with learnable params
             a = self.gamma * z + self.beta
 
             # moving averages of mean and variance
-            self.moving_mean = self.moving_mean + (1 - self.momentum) * mean
-            self.moving_variance = self.moving_variance + (1 - self.momentum) * var
+            self.moving_mean = self.momentum * self.moving_mean + (1 - self.momentum) * mean_batch
+            self.moving_variance = self.momentum * self.moving_variance + (1 - self.momentum) * var_batch
 
             self.cache["x"] = deepcopy(x)
-            self.cache["mean"] = deepcopy(mean)
-            self.cache["std"] = deepcopy(std)
+            self.cache["mean_batch"] = deepcopy(mean_batch)
+            self.cache["std_batch"] = deepcopy(std_batch)
             self.cache["z"] = deepcopy(z)
 
         else:
-            a = self.gamma * (x - self.moving_mean) / (np.sqrt(self.moving_variance) + self.epsilon) + self.beta
+            std_batch = np.sqrt(self.moving_variance + self.epsilon)
+            z = (x - self.moving_mean) / std_batch
+            a = self.gamma * z + self.beta
 
         return a
 
@@ -482,7 +661,100 @@ class BatchNormalization():
         in_dim = out_dim of batch norm
         """
         mode = params["mode"]
-        assert mode in ["train", "test"]
+        assert mode == "train"
+
+        x = deepcopy(self.cache["x"])
+        mean_batch = deepcopy(self.cache["mean_batch"])
+        std_batch = deepcopy(self.cache["std_batch"])
+        z = deepcopy(self.cache["z"])
+
+        # grads of learnable params of batch norm layer (only in train mode)
+        # a = self.gamma*z  + self.beta
+        # so dJ/dgamma = dJ/da * da/dgamma = g_in * da/dgamma
+        # where da/dgamma = z
+        # dgamma.shape = (in_dim,)
+        dgamma = np.sum(g_in * z, axis=0)
+        # so dJ/dbeta = dJ/da * da/dbeta = g_in * da/dbeta
+        # where da/dbeta = 1
+        # dbeta.shape = (in_dim,)
+        dbeta = np.sum(g_in, axis=0)
+
+        # cache grads
+        self.grads["dgamma"] = deepcopy(dgamma)
+        self.grads["dbeta"] = deepcopy(dbeta)
+
+        # downstream grads
+        # a = gamma*z  + beta
+        # where z = (x-mean_batch) / std_batch
+
+        # dJ/dz = dJ/da * da/dz = g_in * da/dz
+        # where da/dz = gamma
+        # dz.shape = (n_batch, in_dim)
+        dz = g_in * self.gamma
+
+        # call (x - mean_batch) -> var_1
+        # so dJ/dvar_1 = dJ/dz * dz/dvar_1
+        # where dz/dvar_1 = 1/std_batch
+        # dvar_1.shape = (n_batch, in_dim)
+        # only partial derivative
+        dvar_1_1 = dz * 1 / std_batch
+
+        # call 1/std_batch -> var_2
+        # dJ/dvar_2 = dJ/dz * dz/dvar_2
+        # where dz/dvar_2 = var_1 = z * std_batch
+        # dvar_2.shape = (in_dim, )
+        dvar_2 = np.sum(dz * z * std_batch, axis=0)
+
+        # call std_batch -> var_3
+        # dJ/var_3 = dJ/dvar_2 * dvar_2/var_3
+        # where dvar_2/var_3 = -1/var_3**2
+        # dvar_3.shape = (in_dim, )
+        dvar_3 = -dvar_2 / std_batch ** 2
+
+        # call var_batch + epsilon -> var_4
+        # note var_3 -> std_batch = sqrt(var_batch + epsilon)
+        # dJ/dvar_4 = dJ/dvar_3 * dvar_3/dvar_4
+        # where dvar_3/dvar_4 = 0.5 * 1/var_3
+        # dvar_4.shape = (in_dim, )
+        dvar_4 = 0.5 * dvar_3 / std_batch
+
+        # call (x-mean_batch)**2 -> var_5
+        # note var_batch = 1/n * sum((x-mean_batch)**2, axis=0) -> var_4
+        # dJ/dvar_5 = dJ/dvar_4 * dvar_4/dvar_5
+        # where dvar_4/dvar_5 = 1/n_batch * 1
+        # dvar_5.shape = (n_batch, in_dim)
+        n_batch = x.shape[0]
+        dvar_5 = 1 / n_batch * np.ones(x.shape) * dvar_4
+
+        # called (x-mean_batch) = z * std_batch -> var_1 (above)
+        # dJ/dvar_1 = dJ/dvar_1_1 + dJ/dvar_5 * dvar_5/dvar_1
+        # where dvar_5/dvar_1 = 2*var_1
+        # dvar_1.shape = (n_batch, in_dim)
+        dvar_1_2 = 2 * z * std_batch * dvar_5
+
+        # sum partial derivatives wrt var_1
+        # dvar_1.shape = (n_batch, in_dim)
+        dvar_1 = dvar_1_1 + dvar_1_2
+
+        # dJ/dx = dJ/dvar_1 * dvar_1/dx + dJ/dmean_batch * dmean_batch/dx
+        # where dvar_1/dx = 1
+        # dx.shape = (n_batch, in_dim)
+        dx_1 = deepcopy(dvar_1)
+        # dJ/dmean_batch = dJ/dvar_1 * dvar_1/dmean_batch
+        # where dvar_1/dmean_batch = -1
+        # dmean_batch.shape = (in_dim, )
+        dmean_batch = -np.sum(dvar_1, axis=0)
+        # dJ/dx = dJ/dmean_batch * dmean_batch/dx
+        # where dmean_batch/dx = 1/n_batch
+        # dx.shape = (n_batch, in_dim)
+        n_batch = x.shape[0]
+        dx_2 = 1 / n_batch * np.ones(x.shape) * dmean_batch
+
+        # finally, downstream gradient is
+        # dx.shape = (n_batch, in_dim)
+        dx = dx_1 + dx_2
+
+        return dx
 
     def __repr__(self):
         repr_str = f"batch norm with momentum {self.momentum}"
