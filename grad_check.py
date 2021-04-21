@@ -15,8 +15,8 @@ def loss_func(model, loss, x, y, **param_dict):
     trainable_params = model.get_trainable_params()
     trainable_params[layer_idx][param_str] = deepcopy(param_val)
     model.set_trainable_params(trainable_params)
-
-    scores = model.forward(x)
+    params = {"mode": "test"}
+    scores = model.forward(x, **params)
     #layers_reg_loss = model.get_reg_loss()
     l = loss.compute_loss(scores, y)
 
@@ -111,12 +111,12 @@ def grad_check_without_reg(model, loss, x, y, verbose, seed=None):
 
             grad_numerical = get_num_gradient(deepcopy(model_new), loss, x, y, verbose, **param_dict)
 
-            scores = model_new.forward(x)
+            scores = model_new.forward(x, **{"mode": "train"})
             assert model_new.get_reg_loss() == 0.0
 
             l = loss.compute_loss(scores, y)
 
-            model_new.backward(loss.grad())
+            model_new.backward(loss.grad(), **{"mode": "train"})
 
             grads_analytic = model_new.get_gradients()
 

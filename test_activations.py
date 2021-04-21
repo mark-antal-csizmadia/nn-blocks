@@ -20,8 +20,9 @@ def test_linear_activation(seed=np.random.randint(low=1, high=300)):
     g_in = np.random.normal(loc=0, scale=1, size=size)
 
     g_out = linear_activation.backward(g_in)
-    g_out_num = eval_numerical_gradient_array(linear_activation.forward, x, g_in)
-    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=9)
+    fx = lambda x: LinearActivation.forward(linear_activation, x)
+    g_out_num = eval_numerical_gradient_array(fx, x, g_in)
+    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=10)
 
     print("test_linear_activation passed")
 
@@ -41,9 +42,10 @@ def test_relu_activation():
     np.random.seed(231)
     x = np.random.randn(10, 10)
     g_in = np.random.randn(*x.shape)
-    g_out_num = eval_numerical_gradient_array(relu_activation.forward, x, g_in)
+    fx = lambda x: ReLUActivation.forward(relu_activation, x)
+    g_out_num = eval_numerical_gradient_array(fx, x, g_in)
     g_out = relu_activation.backward(g_in)
-    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=9)
+    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=10)
 
     print("test_relu_activation passed")
 
