@@ -15,7 +15,7 @@ def loss_func(model, loss, x, y, **param_dict):
     trainable_params = model.get_trainable_params()
     trainable_params[layer_idx][param_str] = deepcopy(param_val)
     model.set_trainable_params(trainable_params)
-    params = {"mode": "test"}
+    params = {"mode": "train"}
     scores = model.forward(x, **params)
     #layers_reg_loss = model.get_reg_loss()
     l = loss.compute_loss(scores, y)
@@ -95,6 +95,7 @@ def grad_check_without_reg(model, loss, x, y, verbose, seed=None):
             trainable_params = model_new.get_trainable_params()
 
             np.random.seed(seed)
+            print(param_str)
             new_param_val = np.random.normal(loc=0, scale=0.01, size=param_val.shape)
 
             param_dict = {
@@ -125,7 +126,7 @@ def grad_check_without_reg(model, loss, x, y, verbose, seed=None):
             rel_error = np.abs(grad_analytic - grad_numerical) \
                 / (np.maximum(np.abs(grad_analytic), np.abs(grad_numerical)) + 10e-20)
 
-            decimal = 6
+            decimal = 2
             np.testing.assert_array_almost_equal(grad_numerical, grad_analytic, decimal=decimal)
             print(f"analytic and numerical grads are equal up to {decimal} decimals")
             print(f"max rel error={np.max(rel_error):.6e}")
