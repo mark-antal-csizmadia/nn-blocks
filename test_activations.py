@@ -80,7 +80,7 @@ def test_softmax_activation():
     g_out = softmax_activation.backward(loss_grad)
     g_out_num = eval_numerical_gradient(func, x, h=5e-6, verbose=False)
 
-    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=2)
+    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=10)
 
     print("test_softmax_activation passed")
 

@@ -285,11 +285,11 @@ class SoftmaxActivation(Activation):
         None
         """
         # avoid numeric instability
-        z -= np.max(z, axis=1, keepdims=True)
+        z_stable = z - np.max(z, axis=1, keepdims=True)
 
         # get unnormalized probabilities
         # exp_scores.shape = (batch_size, K)
-        exp_z = np.exp(z)
+        exp_z = np.exp(z_stable)
 
         # normalize them for each example
         # probs.shape = (batch_size, K)
