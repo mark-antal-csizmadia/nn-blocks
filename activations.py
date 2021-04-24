@@ -289,11 +289,15 @@ class SoftmaxActivation(Activation):
 
         # get unnormalized probabilities
         # exp_scores.shape = (batch_size, K)
-        exp_z = np.exp(z_stable)
+        #exp_z = np.exp(z_stable)
 
         # normalize them for each example
         # probs.shape = (batch_size, K)
-        a = exp_z / np.sum(exp_z, axis=1, keepdims=True)
+        #a = exp_z / np.sum(exp_z, axis=1, keepdims=True)
+
+        Z = np.sum(np.exp(z_stable), axis=1, keepdims=True)
+        log_probs = z_stable - np.log(Z)
+        a = np.exp(log_probs)
 
         self.cache["a"] = deepcopy(a)
 
