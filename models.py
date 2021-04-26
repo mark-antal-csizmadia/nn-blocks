@@ -292,7 +292,7 @@ class Model():
 
         return metrics_dict
 
-    def fit(self, x_train, y_train, x_val, y_val, n_epochs, batch_size):
+    def fit(self, x_train, y_train, x_val, y_val, n_epochs, batch_size, verbose):
         """ Fits the model to the data.
 
         Parameters
@@ -314,6 +314,9 @@ class Model():
         batch_size : int
             The batch size of the mini-batch gradient descent algorithm.
             x_train.shape[0] has to be divisible by batch_size
+        verbose : int
+            The degree to which training progress is printed in the console.
+            2: print all, 1: print some, 0: do not print
 
         Returns
         -------
@@ -331,9 +334,12 @@ class Model():
             If the model has not yet been complied with the self.compiled method.
         """
         assert self.compiled, "Model has to be compiled before fitting."
+        assert isinstance(verbose, int) and verbose in [0, 1, 2], \
+            f"verbose has to be an integer and in [0,1,2], but got {verbose} (type: {type(verbose)})"
 
         for n_epoch in range(n_epochs):
-            print(f"starting epoch: {n_epoch + 1} ...")
+            if verbose in [1, 2]:
+                print(f"starting epoch: {n_epoch + 1} ...")
 
             # Shuffle data
             indices = np.arange(x_train.shape[0])
@@ -343,12 +349,17 @@ class Model():
 
             n_batch = int(x_train.shape[0] / batch_size)
 
-            batches = tqdm(range(n_batch), file=sys.stdout)
+            if verbose in [2]:
+                batches = tqdm(range(n_batch), file=sys.stdout)
+            else:
+                batches = range(n_batch)
 
             params_train = {"mode": "train", "seed": None}
 
             for b in batches:
-                batches.set_description(f"batch {b + 1}/{n_batch}")
+                if verbose in [2]:
+                    batches.set_description(f"batch {b + 1}/{n_batch}")
+
                 x_batch = x_train[b * batch_size:(b + 1) * batch_size]
                 y_batch = y_train[b * batch_size:(b + 1) * batch_size]
 
@@ -394,9 +405,10 @@ class Model():
             train_str += "\n\t -- " + json.dumps(metrics_dict_train)
             val_str += "\n\t -- " + json.dumps(metrics_dict_val)
 
-            print(f"epoch {n_epoch + 1}/{n_epochs} \n "
-                  f"\t -- {train_str} \n"
-                  f"\t -- {val_str} \n\n")
+            if verbose in [1, 2]:
+                print(f"epoch {n_epoch + 1}/{n_epochs} \n "
+                      f"\t -- {train_str} \n"
+                      f"\t -- {val_str} \n\n")
 
             # self.optimizer.apply_lr_schedule()
 
