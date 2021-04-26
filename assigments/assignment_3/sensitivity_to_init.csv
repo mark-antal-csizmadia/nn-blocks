@@ -1,0 +1,13 @@
+n_layers,if_bn,sigma,test_accuracy
+3,False,0.1,0.0
+3,False,0.001,0.5
+3,False,0.0001,0.5
+3,True,0.1,0.0
+3,True,0.001,0.0
+3,True,0.0001,0.0
+9,False,0.1,0.0
+9,False,0.001,0.0
+9,False,0.0001,0.0
+9,True,0.1,0.0
+9,True,0.001,0.0
+9,True,0.0001,0.0

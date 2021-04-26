@@ -12,7 +12,6 @@ import pandas as pd
 import json
 
 
-
 class Activation():
     """ Activation parent class.
 
@@ -3777,8 +3776,8 @@ def part_6_sensitivity_to_init(x_train, y_train, x_val, y_val, x_test, y_test):
 
             for sigma in sigmas:
                 model = network_bn_sigma(dims, if_bn, sigma)
-
-                history = model.fit(x_train, y_train, x_val, y_val, n_epochs, batch_size)
+                verbose = 2
+                history = model.fit(x_train, y_train, x_val, y_val, n_epochs, batch_size, verbose)
 
                 params_test = {"mode": "test"}
                 scores_test = model.forward(x_test, **params_test)
