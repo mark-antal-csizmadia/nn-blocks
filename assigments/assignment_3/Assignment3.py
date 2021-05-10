@@ -3012,13 +3012,6 @@ def build_model_3_layer_with_bn_with_loss_cross_entropy(reg_rate, in_dim, seed):
 
 
 def test_model(x, y, seed=6):
-    size = (2, 20)
-    c = 10
-    np.random.seed(seed + 1)
-    x = np.random.normal(loc=0, scale=1, size=size)
-    np.random.seed(seed + 2)
-    y = np.random.randint(c, size=size[0])
-
     in_dim = x.shape[1]
 
     build_model_loss_func_list = [
