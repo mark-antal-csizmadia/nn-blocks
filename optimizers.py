@@ -159,3 +159,5 @@ class SGDOptimizer(Optimizer):
                 updated_trainable_params[idx][p] = param_dict[p] - self.lr * grad_dict[g]
 
         return deepcopy(updated_trainable_params)
+
+

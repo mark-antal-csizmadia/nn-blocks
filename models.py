@@ -414,6 +414,81 @@ class Model():
 
         return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
 
+    def fit2(self, x_train, y_train, n_epochs, batch_size, verbose, **synth_params):
+
+        synhthetizer = synth_params["synhthetizer"]
+        ts = synth_params["ts"]
+        hpdata = synth_params["hpdata"]
+
+        assert self.compiled, "Model has to be compiled before fitting."
+        assert isinstance(verbose, int) and verbose in [0, 1, 2], \
+            f"verbose has to be an integer and in [0,1,2], but got {verbose} (type: {type(verbose)})"
+
+        losses_register = []
+        n_batch = int(x_train.shape[0] / batch_size)
+        n_steps = n_epochs * n_batch
+        n_step = 1
+        print_n_step = 1000
+
+        for n_epoch in range(n_epochs):
+            if verbose in [1, 2]:
+                print(f"starting epoch: {n_epoch + 1} ...")
+
+            if verbose in [2]:
+                batches = tqdm(range(n_batch), file=sys.stdout)
+            else:
+                batches = range(n_batch)
+
+            params_train = {"mode": "train", "seed": None}
+
+            for b in batches:
+                if verbose in [2]:
+                    batches.set_description(f"batch {b + 1}/{n_batch}")
+
+                x_batch = x_train[b * batch_size:(b + 1) * batch_size]
+                y_batch = y_train[b * batch_size + 1:(b + 1) * batch_size + 1]
+                if y_batch.shape[0] < batch_size:
+                    continue
+
+                scores = self.forward(x_batch, **params_train)
+
+                layers_reg_loss = self.get_reg_loss()
+                data_loss = self.loss.compute_loss(scores, y_batch)
+
+                if n_step == 1:
+                    smooth_loss = data_loss
+                else:
+                    smooth_loss = 0.999 * smooth_loss + 0.001 * data_loss
+                losses_register.append(smooth_loss)
+
+                cost = data_loss + layers_reg_loss
+
+                self.backward(self.loss.grad(), **params_train)
+
+                trainable_params = \
+                    self.optimizer.apply_grads(trainable_params=self.get_trainable_params(),
+                                               grads=self.get_gradients())
+
+                self.set_trainable_params(trainable_params)
+
+                self.loss_dict["loss_train"].append(smooth_loss)
+                self.lr_dict["lr"].append(self.optimizer.get_lr())
+
+                # should I do it here? yes
+                self.optimizer.apply_lr_schedule()
+                if n_step % print_n_step == 0:
+                    print(f"\nn_step={n_step + 1}/{n_steps}, ave loss={np.array(losses_register).sum() / print_n_step}\n")
+                    losses_register = []
+
+                    sequence = synhthetizer(ts=ts, init_idx=hpdata.encode(np.array(["."]))[0])
+                    print("\n")
+                    print("".join(hpdata.decode(sequence.flatten())))
+                    print("\n")
+
+                n_step += 1
+
+        return {**self.loss_dict, **self.lr_dict}
+
     def __repr__(self, ):
         """ Returns the string representation of class.
 
