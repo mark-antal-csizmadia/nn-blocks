@@ -34,3 +34,4 @@ class GradClipperByValue(GradClipper):
 
     def apply(self, grad_val):
         return np.maximum(np.minimum(grad_val, self.val), -self.val)
+
