@@ -3,6 +3,7 @@ from copy import deepcopy
 from tqdm import tqdm
 import sys
 import json
+from opt_utils import GradClipperByValue
 
 
 class Model():
@@ -430,6 +431,10 @@ class Model():
         n_step = 1
         print_n_step = 1000
 
+        val = 5
+        kwargs = {"val": val}
+        gc = GradClipperByValue(**kwargs)
+
         for n_epoch in range(n_epochs):
             if verbose in [1, 2]:
                 print(f"starting epoch: {n_epoch + 1} ...")
@@ -467,7 +472,7 @@ class Model():
 
                 trainable_params = \
                     self.optimizer.apply_grads(trainable_params=self.get_trainable_params(),
-                                               grads=self.get_gradients())
+                                               grads=gc(self.get_gradients()))
 
                 self.set_trainable_params(trainable_params)
 
