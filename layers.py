@@ -53,6 +53,12 @@ class Dense():
         Forward-propagates signals through the layer and its activation.
     backward(g_in)
         Back-propagates gradients through the the activation of the layer and then the layer.
+    get_learnable_params()
+        Get all learnable params.
+    set_learnable_params(**learnable_params)
+        Set all learnable params.
+    get_learnable_params_grads()
+        Get the gradients of the learnable params.
     __repr__()
         Returns the string representation of class.
     """
@@ -152,6 +158,21 @@ class Dense():
         return deepcopy(self.b)
 
     def get_learnable_params(self):
+        """ Get all learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        dict
+            Dict of learanble params.
+
+        Notes
+        -----
+        None
+        """
         return {"w": self.get_w(), "b": self.get_b()}
 
     def set_w(self, w):
@@ -191,6 +212,21 @@ class Dense():
         self.b = deepcopy(b)
 
     def set_learnable_params(self, **learnable_params):
+        """ Set all learnable params.
+
+        Parameters
+        ----------
+        learnable_params : dict
+            Dict of learnable params.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
         self.set_w(learnable_params["w"])
         self.set_b(learnable_params["b"])
 
@@ -243,6 +279,21 @@ class Dense():
         return ret
 
     def get_learnable_params_grads(self):
+        """ Get the gradients of the learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        dict
+            Dict of grads of learanble params.
+
+        Notes
+        -----
+        None
+        """
         return {"dw": self.get_dw(), "db": self.get_db()}
 
     def get_reg_loss(self, ):

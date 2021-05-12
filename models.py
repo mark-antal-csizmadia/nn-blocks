@@ -415,11 +415,12 @@ class Model():
 
         return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
 
-    def fit2(self, x_train, y_train, n_epochs, batch_size, verbose, **synth_params):
+    def fit_custom_rnn(self, x_train, y_train, n_epochs, batch_size, verbose, **kwargs):
 
-        synhthetizer = synth_params["synhthetizer"]
-        ts = synth_params["ts"]
-        hpdata = synth_params["hpdata"]
+        synhthetizer = kwargs["synhthetizer"]
+        ts = kwargs["ts"]
+        hpdata = kwargs["hpdata"]
+        eol_char = kwargs["eol_char"]
 
         assert self.compiled, "Model has to be compiled before fitting."
         assert isinstance(verbose, int) and verbose in [0, 1, 2], \
@@ -428,7 +429,7 @@ class Model():
         losses_register = []
         n_batch = int(x_train.shape[0] / batch_size)
         n_steps = n_epochs * n_batch
-        n_step = 1
+        n_step = 0
         print_n_step = 1000
 
         val = 5
@@ -460,7 +461,7 @@ class Model():
                 layers_reg_loss = self.get_reg_loss()
                 data_loss = self.loss.compute_loss(scores, y_batch)
 
-                if n_step == 1:
+                if n_step == 0:
                     smooth_loss = data_loss
                 else:
                     smooth_loss = 0.999 * smooth_loss + 0.001 * data_loss
@@ -484,8 +485,8 @@ class Model():
                 if n_step % print_n_step == 0:
                     print(f"\nn_step={n_step + 1}/{n_steps}, ave loss={np.array(losses_register).sum() / print_n_step}\n")
                     losses_register = []
-
-                    sequence = synhthetizer(ts=ts, init_idx=hpdata.encode(np.array(["."]))[0])
+                if n_step % 10000 == 0:
+                    sequence = synhthetizer(ts=ts, init_idx=hpdata.encode(np.array([eol_char]))[0])
                     print("\n")
                     print("".join(hpdata.decode(sequence.flatten())))
                     print("\n")
