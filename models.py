@@ -3,6 +3,7 @@ from copy import deepcopy
 from tqdm import tqdm
 import sys
 import json
+from random import shuffle
 
 
 class Model():
@@ -179,7 +180,8 @@ class Model():
                 #db = layer.get_db()
                 learnable_params_grads = layer.get_learnable_params_grads()
             else:
-                raise Exception("no grads yet")
+                pass
+                #raise Exception("no grads yet")
             grads.append(learnable_params_grads)
 
         return deepcopy(grads)
@@ -209,7 +211,8 @@ class Model():
                 #b = layer.get_b()
                 learnable_params = layer.get_learnable_params()
             else:
-                raise Exception("no trainable params")
+                pass
+                #raise Exception("no trainable params")
             trainable_params.append(learnable_params)
 
         return deepcopy(trainable_params)
@@ -292,7 +295,7 @@ class Model():
 
         return metrics_dict
 
-    def fit(self, x_train, y_train, x_val, y_val, n_epochs, batch_size):
+    def fit(self, x_train, y_train, x_val, y_val, n_epochs, batch_size, verbose, aug_func):
         """ Fits the model to the data.
 
         Parameters
@@ -314,6 +317,11 @@ class Model():
         batch_size : int
             The batch size of the mini-batch gradient descent algorithm.
             x_train.shape[0] has to be divisible by batch_size
+        verbose : int
+            The degree to which training progress is printed in the console.
+            2: print all, 1: print some, 0: do not print
+        aug_func : func
+            Data augmentation function using imgaug.
 
         Returns
         -------
@@ -331,9 +339,12 @@ class Model():
             If the model has not yet been complied with the self.compiled method.
         """
         assert self.compiled, "Model has to be compiled before fitting."
+        assert isinstance(verbose, int) and verbose in [0, 1, 2], \
+            f"verbose has to be an integer and in [0,1,2], but got {verbose} (type: {type(verbose)})"
 
         for n_epoch in range(n_epochs):
-            print(f"starting epoch: {n_epoch + 1} ...")
+            if verbose in [1, 2]:
+                print(f"starting epoch: {n_epoch + 1} ...")
 
             # Shuffle data
             indices = np.arange(x_train.shape[0])
@@ -343,13 +354,20 @@ class Model():
 
             n_batch = int(x_train.shape[0] / batch_size)
 
-            batches = tqdm(range(n_batch), file=sys.stdout)
+            if verbose in [2]:
+                batches = tqdm(range(n_batch), file=sys.stdout)
+            else:
+                batches = range(n_batch)
 
             params_train = {"mode": "train", "seed": None}
 
             for b in batches:
-                batches.set_description(f"batch {b + 1}/{n_batch}")
+                if verbose in [2]:
+                    batches.set_description(f"batch {b + 1}/{n_batch}")
+
                 x_batch = x_train[b * batch_size:(b + 1) * batch_size]
+                if aug_func is not None:
+                    x_batch = aug_func(x_batch)
                 y_batch = y_train[b * batch_size:(b + 1) * batch_size]
 
                 scores = self.forward(x_batch, **params_train)
@@ -394,11 +412,88 @@ class Model():
             train_str += "\n\t -- " + json.dumps(metrics_dict_train)
             val_str += "\n\t -- " + json.dumps(metrics_dict_val)
 
-            print(f"epoch {n_epoch + 1}/{n_epochs} \n "
-                  f"\t -- {train_str} \n"
-                  f"\t -- {val_str} \n\n")
+            if verbose in [1, 2]:
+                print(f"epoch {n_epoch + 1}/{n_epochs} \n "
+                      f"\t -- {train_str} \n"
+                      f"\t -- {val_str} \n\n")
 
             # self.optimizer.apply_lr_schedule()
+
+        return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
+
+    def fit_rnn(self, x_train, y_train, x_val, y_val, n_epochs, batch_size, verbose, callbacks):
+
+        assert self.compiled, "Model has to be compiled before fitting."
+        assert isinstance(verbose, int) and verbose in [0, 1, 2], \
+            f"verbose has to be an integer and in [0,1,2], but got {verbose} (type: {type(verbose)})"
+
+        n_step = 0
+
+        for n_epoch in range(n_epochs):
+            if verbose in [1, 2]:
+                print(f"starting epoch: {n_epoch + 1} ...")
+
+            # Shuffle contexts in the beginning of each epoch
+            indices_shuffle = list(range(len(x_train)))
+            shuffle(indices_shuffle)
+            x_train = [x for i, x in sorted(zip(indices_shuffle, x_train))]
+            y_train = [x for i, x in sorted(zip(indices_shuffle, y_train))]
+
+            for idx_context, (x_train_context, y_train_context) in enumerate(zip(x_train, y_train)):
+                print(f"starting context: {idx_context + 1}/{len(x_train)} ...")
+                n_batch = int(x_train_context.shape[0] / batch_size)
+
+                if verbose in [2]:
+                    batches = tqdm(range(n_batch), file=sys.stdout)
+                else:
+                    batches = range(n_batch)
+
+                params_train = {"mode": "train", "seed": None}
+
+                for b in batches:
+
+                    x_batch = x_train_context[b * batch_size:(b + 1) * batch_size]
+                    y_batch = y_train_context[b * batch_size + 1:(b + 1) * batch_size + 1]
+
+                    # dirty solve: if cannot fit a y batch into context, skip the remaining skimmed-batch
+                    if y_batch.shape[0] < batch_size:
+                        continue
+
+                    scores = self.forward(x_batch, **params_train)
+
+                    layers_reg_loss = self.get_reg_loss()
+                    data_loss = self.loss.compute_loss(scores, y_batch)
+                    cost = data_loss + layers_reg_loss
+
+                    self.backward(self.loss.grad(), **params_train)
+
+                    trainable_params = \
+                        self.optimizer.apply_grads(trainable_params=self.get_trainable_params(),
+                                                   grads=self.get_gradients())
+
+                    self.set_trainable_params(trainable_params)
+
+                    self.loss_dict["loss_train"].append(data_loss)
+                    self.lr_dict["lr"].append(self.optimizer.get_lr())
+
+                    # should I do it here? yes
+                    self.optimizer.apply_lr_schedule()
+
+                    if verbose in [2]:
+                        str_update = f"batch {b + 1}/{n_batch} (n_step: {n_step}), loss = {data_loss:.4f}"
+                        batches.set_description(str_update)
+
+                    for callback in callbacks:
+                        callback(n_step)
+
+                    n_step += 1
+
+                # reset rnn h init here after each context
+                # for the hp book a context is the entire book
+                # for tweets, a context is one tweet
+                for layer in self.layers:
+                    #if isinstance(layer, RNN):
+                    layer.reset_hidden_state()
 
         return {**self.metrics_dict, **self.loss_dict, **self.cost_dict, **self.lr_dict}
 

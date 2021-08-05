@@ -289,11 +289,15 @@ class SoftmaxActivation(Activation):
 
         # get unnormalized probabilities
         # exp_scores.shape = (batch_size, K)
-        exp_z = np.exp(z_stable)
+        #exp_z = np.exp(z_stable)
 
         # normalize them for each example
         # probs.shape = (batch_size, K)
-        a = exp_z / np.sum(exp_z, axis=1, keepdims=True)
+        #a = exp_z / np.sum(exp_z, axis=1, keepdims=True)
+
+        Z = np.sum(np.exp(z_stable), axis=1, keepdims=True)
+        log_probs = z_stable - np.log(Z)
+        a = np.exp(log_probs)
 
         self.cache["a"] = deepcopy(a)
 
@@ -347,4 +351,109 @@ class SoftmaxActivation(Activation):
         None
         """
         repr_str = "softmax"
+        return repr_str
+
+
+class TanhActivation(Activation):
+    """ Tanh activation.
+    Can be followed by virtually anything.
+    Inherits everything from class Activation.
+
+    Attributes
+    ----------
+    cache : dict
+        Run-time cache of attibutes such as gradients.
+
+    Methods
+    -------
+    __init__()
+        Constuctor.
+    forward(z)
+        Activates the linear transformation of the layer, and
+        forward propagates activation. Activation is tanh.
+    backward(g)
+        Backpropagates incoming gradient into the layer, based on the tanh activation.
+    __repr__()
+        Returns the string representation of class.
+    """
+
+    def __init__(self, ):
+        """ Constructor.
+
+        Parameters
+        ----------
+        None
+
+        Notes
+        -----
+        None
+        """
+        super().__init__()
+
+    def forward(self, z):
+        """ Activates the linear transformation of the layer, and
+        forward propagates activation. Activation is tanh.
+
+        Parameters
+        ----------
+        z : numpy.ndarray
+            Linear transformation of layer.
+            Shape is unknown here, but will usually be
+            (batch size, this layer output dim = next layer input dim)
+
+        Returns
+        -------
+        numpy.ndarray
+            ReLU activation.
+
+        Notes
+        -----
+        None
+        """
+        a = np.tanh(z)
+        self.cache["a"] = deepcopy(a)
+        return a
+
+    def backward(self, g_in):
+        """ Backpropagates incoming gradient into the layer, based on the tanh activation.
+
+        Parameters
+        ----------
+        g_in : numpy.ndarray
+            Incoming gradient to the activation.
+            Shape is unknown here, but will usually be
+            (batch size, this layer output dim = next layer input dim)
+
+        Returns
+        -------
+        numpy.ndarray
+            Gradient of activation.
+            Shape is unknown here, but will usually be
+            (batch size, this layer output dim = next layer input dim)
+
+        Notes
+        -----
+        None
+        """
+        a = deepcopy(self.cache["a"])
+        g_out = (1 - np.power(a, 2)) * g_in
+        return g_out
+
+    def __repr__(self):
+        """ Returns the string representation of class.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        repr_str : str
+            The string representation of the class.
+
+        Notes
+        -----
+        None
+        """
+        repr_str = "tanh"
         return repr_str

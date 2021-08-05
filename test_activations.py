@@ -1,6 +1,6 @@
 import numpy as np
 from copy import deepcopy
-from activations import SoftmaxActivation, LinearActivation, ReLUActivation
+from activations import SoftmaxActivation, LinearActivation, ReLUActivation, TanhActivation
 from losses import CategoricalCrossEntropyLoss
 from grad_check import eval_numerical_gradient_array, eval_numerical_gradient
 
@@ -84,3 +84,15 @@ def test_softmax_activation():
 
     print("test_softmax_activation passed")
 
+
+def test_tanh_activation():
+    tanh_activation = TanhActivation()
+    np.random.seed(231)
+    x = np.random.randn(5, 10)
+    g_in = np.random.randn(*x.shape)
+    fx = lambda x: TanhActivation.forward(tanh_activation, x)
+    g_out_num = eval_numerical_gradient_array(fx, x, g_in)
+    g_out = tanh_activation.backward(g_in)
+    np.testing.assert_array_almost_equal(g_out, g_out_num, decimal=6)
+
+    print("test_relu_activation passed")
