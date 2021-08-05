@@ -22,7 +22,7 @@ class Optimizer():
         Returns the latest learning rate of the optimizer's learning rate schedule.
     """
 
-    def __init__(self, lr_schedule, repr_str):
+    def __init__(self, lr_schedule, grad_clipper, repr_str):
         """ Constructor.
 
         Parameters
@@ -35,6 +35,7 @@ class Optimizer():
         None
         """
         self.lr_schedule = lr_schedule
+        self.grad_clipper = grad_clipper
         self.lr = self.lr_schedule.get_lr()
         self.repr_str = repr_str
 
@@ -100,7 +101,7 @@ class SGDOptimizer(Optimizer):
         Applies the gradient update rule to trainable params using gradients.
     """
 
-    def __init__(self, lr_schedule):
+    def __init__(self, lr_schedule, grad_clipper):
         """ Constructor.
         Inherits everything from the Optimizer class.
 
@@ -113,8 +114,8 @@ class SGDOptimizer(Optimizer):
         -----
         None
         """
-        repr_str = f"sgd with {lr_schedule.__repr__()}"
-        super().__init__(lr_schedule, repr_str)
+        repr_str = f"sgd with {lr_schedule.__repr__()} and {grad_clipper.__repr__()}"
+        super().__init__(lr_schedule, grad_clipper, repr_str)
 
     def apply_grads(self, trainable_params, grads):
         """ Applies the gradient update rule to trainable params using gradients.
@@ -145,6 +146,9 @@ class SGDOptimizer(Optimizer):
         AssertionError
             If the lengths of trainable_weights and grads lists are not the same.
         """
+        if self.grad_clipper is not None:
+            grads = deepcopy(self.grad_clipper(grads))
+
         updated_trainable_params = deepcopy(trainable_params)
 
         assert len(trainable_params) == len(grads)
@@ -194,7 +198,7 @@ class AdaGradOptimizer(Optimizer):
         Get the optimizer specific grads computed using the cache.
     """
 
-    def __init__(self, lr_schedule, epsilon=1e-6):
+    def __init__(self, lr_schedule, grad_clipper, epsilon=1e-6):
         """ Constructor.
         Inherits everything from the Optimizer class.
 
@@ -209,8 +213,8 @@ class AdaGradOptimizer(Optimizer):
         -----
         None
         """
-        repr_str = f"adagrad with {lr_schedule.__repr__()}"
-        super().__init__(lr_schedule, repr_str)
+        repr_str = f"adagrad with {lr_schedule.__repr__()} and {grad_clipper.__repr__()}"
+        super().__init__(lr_schedule, grad_clipper, repr_str)
         self.first_call = True
         self.epsilon = epsilon
         self.cache = []
@@ -346,6 +350,9 @@ class AdaGradOptimizer(Optimizer):
         AssertionError
             If the lengths of trainable_weights and grads lists are not the same.
         """
+        if self.grad_clipper is not None:
+            grads = deepcopy(self.grad_clipper(grads))
+
         updated_trainable_params = deepcopy(trainable_params)
 
         assert len(trainable_params) == len(grads)
@@ -366,4 +373,3 @@ class AdaGradOptimizer(Optimizer):
                 updated_trainable_params[idx][p] = param_dict[p] - self.lr * opt_grad_dict[g]
 
         return deepcopy(updated_trainable_params)
-

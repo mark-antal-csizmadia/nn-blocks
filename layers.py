@@ -447,11 +447,11 @@ class Dropout():
 
     def forward(self, x, **params):
         mode = params["mode"]
-        seed = params["seed"]
+        #seed = params["seed"]
         assert mode in ["train", "test"]
 
         if mode == "train":
-            np.random.seed(seed)
+            #np.random.seed(seed)
             mask = (np.random.rand(*x.shape) < self.p) / self.p
             self.cache["mask"] = deepcopy(mask)
             # drop it boi!
@@ -809,4 +809,740 @@ class BatchNormalization():
 
     def __repr__(self):
         repr_str = f"batch norm with momentum {self.momentum}"
+        return repr_str
+
+
+class RNN():
+    """ Many-to-many RNN layer for character-to-character sequence modelling.
+
+    Attributes
+    ----------
+    in_dim : int
+        Input dimension.
+    out_dim : int
+        Output dimension.
+    hidden_dim : int
+        Hidden dimension.
+    kernel_h_initializer : Initializer
+        The weight parameter initializer of the hidden neurons.
+    bias_h_initializer : Initializer
+        The bias parameter initializer of the hidden neurons.
+    kernel_o_initializer : Initializer
+        The weight parameter initializer of the output neurons.
+    bias_o_initializer : Initializer
+        The bias parameter initializer of the output neurons.
+    kernel_regularizer : Regularizer
+        The weight parameter regularizer for all parameters.
+        Separate for h and o neurons. Not used yet.
+    activation_h : Activation
+        Layer activation of hidden neurons.
+    activation_o : Activation
+        Layer activation of output neurons.
+    u : numpy.ndarray
+        The weight parameters dotted with the input vector,
+        of shape (in_dim, hidden_dim)
+    w : numpy.ndarray
+        The weight parameters dotted with the pre-activation hidden vector,
+        of shape (hidden_dim, hidden_dim)
+    b : numpy.ndarray
+        The bias parameters added to the input-previous hidden vector
+        linear combination, of shape (1, hidden_dim)
+    v : numpy.ndarray
+        The weight parameters dotted with the activated hidden vector,
+        of shape (hidden_dim, out_dim)
+    c : numpy.ndarray
+        The bias parameters added to the dotted activated hidden vector,
+        of shape (1, out_dim)
+    cache : dict
+        The run-time cache for storing activations, etc.
+    grads : dict
+        The run-time cache for storing gradients.
+    h_shape : tuple
+        Hidden vector shape.
+    has_learnable_params : bool
+        If layer has learnable/trainable params.
+
+    Methods
+    -------
+    __init__(in_dim, out_dim, kernel_initializer, bias_initializer, kernel_regularizer, activation)
+        Constructor.
+    get_u()
+        Returns the u parameters.
+    get_w()
+        Returns the w parameters.
+    get_b()
+        Returns the b parameters.
+    get_v()
+        Returns the v parameters.
+    get_c()
+        Returns the c parameters.
+    set_u()
+        Sets the u parameters.
+    set_w()
+        Sets the w parameters.
+    set_b()
+        Sets the b parameters.
+    set_v()
+        Sets the v parameters.
+    set_c()
+        Sets the c parameters.
+    get_du()
+        Returns the gradients of u parameters.
+    get_dw()
+        Returns the gradients of w parameters.
+    get_db()
+        Returns the gradients b parameters.
+    get_dv()
+        Returns the gradients of v parameters.
+    get_dc()
+        Returns the gradients c parameters.
+    get_learnable_params()
+        Get all learnable params.
+    set_learnable_params(**learnable_params)
+        Set all learnable params.
+    get_learnable_params_grads()
+        Get the gradients of the learnable params.
+    get_reg_loss()
+        Returns the regularization loss of the weight parameters.
+    if_has_learnable_params()
+        Returns if layer has learnable params.
+    forward(x, **params)
+        Forward-propagates signals through the layer and its activation.
+    backward(g_in, **params)
+        Back-propagates gradients through the the activation of the layer and then the layer.
+        Note that the RNN layer implements backpropagation through time (BPTT).
+    __repr__()
+        Returns the string representation of class.
+    """
+
+    def __init__(self, in_dim, out_dim, hidden_dim,
+                 kernel_h_initializer, bias_h_initializer,
+                 kernel_o_initializer, bias_o_initializer,
+                 kernel_regularizer,
+                 activation_h, activation_o):
+        """ Constructor.
+
+        Parameters
+        ----------
+        in_dim : int
+            Input dimension.
+        out_dim : int
+            Output dimension.
+        hidden_dim : int
+            Hidden dimension.
+        kernel_h_initializer : Initializer
+            The weight parameter initializer of the hidden neurons.
+        bias_h_initializer : Initializer
+            The bias parameter initializer of the hidden neurons.
+        kernel_o_initializer : Initializer
+            The weight parameter initializer of the output neurons.
+        bias_o_initializer : Initializer
+            The bias parameter initializer of the output neurons.
+        kernel_regularizer : Regularizer
+            The weight parameter regularizer for all parameters.
+            Separate for h and o neurons. Not used yet.
+        activation_h : Activation
+            Layer activation of hidden neurons.
+        activation_o : Activation
+            Layer activation of output neurons.
+        kwargs : dict
+            Utils such as one-hot encoder.
+
+        Notes
+        -----
+        None
+        """
+        self.in_dim = in_dim
+        self.out_dim = out_dim
+        self.hidden_dim = hidden_dim
+
+        self.kernel_h_initializer = kernel_h_initializer
+        self.bias_h_initializer = bias_h_initializer
+        self.kernel_o_initializer = kernel_o_initializer
+        self.bias_o_initializer = bias_o_initializer
+
+        self.u = kernel_h_initializer.initialize(size=(in_dim, hidden_dim))
+        self.w = kernel_h_initializer.initialize(size=(hidden_dim, hidden_dim))
+        self.b = bias_h_initializer.initialize(size=(1, hidden_dim))
+
+        self.v = kernel_o_initializer.initialize(size=(hidden_dim, out_dim))
+        self.c = bias_o_initializer.initialize(size=(1, out_dim))
+
+        self.kernel_regularizer = kernel_regularizer
+
+        self.activation_h = activation_h
+        self.activation_o = activation_o
+
+        self.cache = {}
+        self.grads = {}
+
+        self.h_shape = (1, hidden_dim)
+        self.cache["h"] = np.zeros(self.h_shape)
+
+        self.has_learnable_params = True
+
+    def forward(self, x, **params):
+        """ Forward-propagates signals through the layer and its activation.
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            Input data to layer of shape (batch_size, in_dim).
+        params : dict
+            Dict of params for forward pass such as train or test mode, seed, etc.
+            Unused in RNN layer.
+
+        Returns
+        -------
+        p : numpy.ndarray
+            Activation of the RNN layer output neurons, of shape (batch_size, out_dim).
+
+        Notes
+        -----
+        Shapes are commented below.
+        """
+        # If first call, init h. If not, use the latest cached h.
+        # used for inter-batch temporal information preservation
+        h = deepcopy(self.cache["h"])
+        self.cache["x"] = deepcopy(x)
+        h_concat = np.zeros((x.shape[0], h.shape[1]))
+        a_concat = np.zeros((x.shape[0], h.shape[1]))
+        assert h.shape == (1, self.hidden_dim)
+
+        for idx, x_ in enumerate(x):
+            x_ = x_.reshape(1, -1)
+            assert x_.shape == (1, self.in_dim)
+            a = np.dot(x_, self.u) + np.dot(h, self.w) + self.b
+            a_concat[idx] = a.reshape(1, -1)
+            assert a.shape == (1, self.hidden_dim)
+            h = self.activation_h.forward(a)
+            h_concat[idx] = deepcopy(h)
+            assert h.shape == (1, self.hidden_dim)
+
+        # cache in the last hidden vector h for use in next batch
+        # used for inter-batch temporal information preservation
+        self.cache["h"] = deepcopy(h)
+        self.cache["h_concat"] = deepcopy(h_concat)
+        self.cache["a_concat"] = deepcopy(a_concat)
+        assert h_concat.shape == (x.shape[0], h.shape[1])
+        o = np.dot(h_concat, self.v) + self.c
+        assert o.shape == (x.shape[0], self.out_dim)
+        p = self.activation_o.forward(o)
+        assert p.shape == (x.shape[0], self.out_dim)
+
+        return p
+
+    def backward(self, g_in, **params):
+        """ Back-propagates gradients through the the activation of the layer and then the layer.
+        Note that the RNN layer implements backpropagation through time (BPTT).
+
+        Parameters
+        ----------
+        g_in : numpy.ndarray
+            Incoming (from later layers or losses) gradients, of shape (batch_size, out_dim).
+        params : dict
+            Dict of params for forward pass such as train or test mode, seed, etc. Unused in Dense layer.
+
+        Returns
+        -------
+        g_out : numpy.ndarray
+            Outgoing (to previous layers, or input data) gradients, of shape (batch_size, in_dim).
+            Not implemented yet!
+
+        Notes
+        -----
+        Shapes are commented below.
+        """
+        # x.shape = (x.shape[0], in_dim)
+        x = deepcopy(self.cache["x"])
+        # h_concat.shape = (x.shape[0], hidden_dim)
+        h_concat = deepcopy(self.cache["h_concat"])
+        a_concat = deepcopy(self.cache["a_concat"])
+
+        # g_in.shape = (batch_size, )
+        assert g_in.shape == (x.shape[0],)
+        # g_a_o.shape = (batch_size, out_dim)
+        g_a_o = self.activation_o.backward(g_in)
+        assert g_a_o.shape == (x.shape[0], self.out_dim)
+
+        # g_h_concat.shape = (batch_size, hidden_dim)
+        g_h_concat = np.zeros((x.shape[0], self.hidden_dim))
+
+        # v.shape = (hidden_dim, out_dim)
+        # (1,hidden_dim) = (1,out_dim) * (hidden_dim, out_dim).T
+        g_h_concat[-1] = np.dot(g_a_o[-1].reshape(1, -1), self.v.T)
+        assert np.dot(g_a_o[-1].reshape(1, -1), self.v.T).shape == (1, self.hidden_dim)
+
+        g_a = np.zeros((x.shape[0], self.hidden_dim))
+        # (1, hidden_dim) = (1, hidden_dim) * (1, hidden_dim)
+        # change cache (shapes)
+        _ = self.activation_h.forward(a_concat[-1].reshape(1, -1))
+        g_a[-1] = self.activation_h.backward(g_h_concat[-1]).reshape(1, -1)
+        assert self.activation_h.backward(g_h_concat[-1].reshape(1, -1)).shape == (1, self.hidden_dim)
+
+        for t in reversed(range(x.shape[0] - 1)):
+            # (1,hidden_dim) = (1,out_dim) * (hidden_dim, out_dim).T
+            # \+ (1,hidden_dim) * (hidden_dim, hidden_dim), maybe w.T?
+            g_h_concat[t] = np.dot(g_a_o[t].reshape(1, -1), self.v.T) \
+                            + np.dot(g_a[t + 1].reshape(1, -1), self.w)
+            # change cache (shapes)
+            _ = self.activation_h.forward(a_concat[t].reshape(1, -1))
+            g_a[t] = self.activation_h.backward(g_h_concat[t])
+            assert self.activation_h.backward(g_h_concat[t]).shape == (1, self.hidden_dim)
+
+        assert g_h_concat.shape == (x.shape[0], self.hidden_dim)
+        assert g_a.shape == (x.shape[0], self.hidden_dim)
+
+        # (hidden_dim, out_dim) = (x.shape[0], hidden_dim).T * (x.shape[0], out_dim)
+        g_v = np.dot(h_concat.T, g_a_o)
+        assert g_v.shape == (self.hidden_dim, self.out_dim)
+        self.grads["dv"] = deepcopy(g_v)
+
+        # Auxiliar h matrix that includes h_prev
+        h_aux = np.zeros(h_concat.shape)
+        # h_init = np.zeros((1, self.hidden_dim))
+        # h_aux[0, :] = h_init
+        h_aux[0] = h_concat[-1].reshape(1, -1)
+        h_aux[1:] = h_concat[0:-1]
+        assert h_aux.shape == (x.shape[0], self.hidden_dim)
+
+        # (hidden_dim, hidden_dim) = (x.shape[0], hidden_dim).T * (x.shape[0], hidden_dim)
+        g_w = np.dot(h_aux.T, g_a)
+        assert g_w.shape == (self.hidden_dim, self.hidden_dim)
+        self.grads["dw"] = deepcopy(g_w)
+
+        # (in_dim, hidden_dim) = (x.shape[0], in_dim).T * (x.shape[0], hidden_dim)
+        g_u = np.dot(x.T, g_a)
+        assert g_u.shape == (self.in_dim, self.hidden_dim)
+        self.grads["du"] = deepcopy(g_u)
+
+        # (1, hidden_dim) = sum((x.shape[0], self.hidden_dim), axis=0)
+        g_b = np.sum(g_a, axis=0).reshape(1, -1)
+        assert g_b.shape == (1, self.hidden_dim), f"g_b.shape={g_b.shape}"
+        self.grads["db"] = deepcopy(g_b)
+
+        # (1, out_dim) = sum((x.shape[0], self.out_dim), axis=0)
+        g_c = np.sum(g_a_o, axis=0).reshape(1, -1)
+        assert g_c.shape == (1, self.out_dim)
+        self.grads["dc"] = deepcopy(g_c)
+
+        # compute downstream grad!
+        g_out = None
+        return g_out
+
+    def reset_hidden_state(self,):
+        self.cache["h"] = np.zeros(self.h_shape)
+        #print("resetting RNN h init vector\n")
+
+    def if_has_learnable_params(self, ):
+        """ Returns if the layer has learnable params. Dense layer does have learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        has_learnable_params
+            True if the layer has learnable params.
+
+        Notes
+        -----
+        None
+        """
+        return self.has_learnable_params
+
+    def get_u(self, ):
+        """ Returns the u parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The u parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.u)
+
+    def get_w(self, ):
+        """ Returns the w parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The w parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.w)
+
+    def get_b(self, ):
+        """ Returns the b parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The b parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.b)
+
+    def get_v(self, ):
+        """ Returns the v parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The v parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.v)
+
+    def get_c(self, ):
+        """ Returns the c parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray
+            The c parameters.
+
+        Notes
+        -----
+        None
+        """
+        return deepcopy(self.c)
+
+    def get_learnable_params(self):
+        """ Get all learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        dict
+            Dict of learanble params.
+
+        Notes
+        -----
+        None
+        """
+        return {
+            "u": self.get_u(), "w": self.get_w(), "b": self.get_b(),
+            "v": self.get_v(), "c": self.get_c()
+        }
+
+    def set_u(self, u):
+        """ Sets the u parameters.
+
+        Parameters
+        ----------
+        u : numpy.ndarray
+            The u parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.u = deepcopy(u)
+
+    def set_w(self, w):
+        """ Sets the w parameters.
+
+        Parameters
+        ----------
+        w : numpy.ndarray
+            The w parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.w = deepcopy(w)
+
+    def set_b(self, b):
+        """ Sets the b parameters.
+
+        Parameters
+        ----------
+        b : numpy.ndarray
+            The b parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.b = deepcopy(b)
+
+    def set_v(self, v):
+        """ Sets the v parameters.
+
+        Parameters
+        ----------
+        v : numpy.ndarray
+            The v parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.v = deepcopy(v)
+
+    def set_c(self, c):
+        """ Sets the c parameters.
+
+        Parameters
+        ----------
+        c : numpy.ndarray
+            The c parameters.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.c = deepcopy(c)
+
+    def set_learnable_params(self, **learnable_params):
+        """ Set all learnable params.
+
+        Parameters
+        ----------
+        learnable_params : dict
+            Dict of learnable params.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+        """
+        self.set_u(learnable_params["u"])
+        self.set_w(learnable_params["w"])
+        self.set_b(learnable_params["b"])
+        self.set_v(learnable_params["v"])
+        self.set_c(learnable_params["c"])
+
+    def get_du(self, ):
+        """ Returns the gradients of u parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of u parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "du" in self.grads.keys():
+            du = self.grads["du"]
+            ret = deepcopy(du)
+        else:
+            ret = None
+
+        return ret
+
+    def get_dw(self, ):
+        """ Returns the gradients of w parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of w parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "dw" in self.grads.keys():
+            dw = self.grads["dw"]
+            ret = deepcopy(dw)
+        else:
+            ret = None
+
+        return ret
+
+    def get_db(self, ):
+        """ Returns the gradients of b parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of b parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "db" in self.grads.keys():
+            db = self.grads["db"]
+            ret = deepcopy(db)
+        else:
+            ret = None
+
+        return ret
+
+    def get_dv(self, ):
+        """ Returns the gradients of v parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of v parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "dv" in self.grads.keys():
+            dv = self.grads["dv"]
+            ret = deepcopy(dv)
+        else:
+            ret = None
+
+        return ret
+
+    def get_dc(self, ):
+        """ Returns the gradients of c parameters.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ret : None or numpy.ndarray
+            The gradients of c parameters, or None if does not exist yet.
+
+        Notes
+        -----
+        None
+        """
+        if "dc" in self.grads.keys():
+            dc = self.grads["dc"]
+            ret = deepcopy(dc)
+        else:
+            ret = None
+
+        return ret
+
+    def get_learnable_params_grads(self):
+        """ Get the gradients of the learnable params.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        dict
+            Dict of grads of learanble params.
+
+        Notes
+        -----
+        None
+        """
+        return {
+            "du": self.get_du(), "dw": self.get_dw(), "db": self.get_db(),
+            "dv": self.get_dv(), "dc": self.get_dc()
+        }
+
+    def get_reg_loss(self, ):
+        return 0.0
+
+    def __repr__(self, ):
+        """ Returns the string representation of class.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        repr_str : str
+            The string representation of the class.
+
+        Notes
+        -----
+        None
+        """
+        repr_str = "rnn: \n" \
+                   + f"\t shape -- in: {self.in_dim}, out: {self.out_dim}, hidden: {self.hidden_dim}\n" \
+                   + "\t u -- init: " + self.kernel_h_initializer.__repr__() + "\n" \
+                   + "\t w -- init: " + self.kernel_h_initializer.__repr__() + "\n" \
+                   + "\t b -- init: " + self.bias_h_initializer.__repr__() + "\n" \
+                   + "\t v -- init: " + self.kernel_o_initializer.__repr__() + "\n" \
+                   + "\t c -- init: " + self.bias_o_initializer.__repr__() + "\n" \
+                   + ", reg: " + self.kernel_regularizer.__repr__() + "\n" \
+                   + "\t activation: \n \t hidden: " + self.activation_h.__repr__() \
+                   + "\t out: " + self.activation_o.__repr__() + "\n"
         return repr_str

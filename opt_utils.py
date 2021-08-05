@@ -22,7 +22,7 @@ class GradClipper():
 
         return deepcopy(clipped_grads)
 
-    def __repr_(self, ):
+    def __repr__(self, ):
         return self.repr_str
 
 
@@ -34,4 +34,13 @@ class GradClipperByValue(GradClipper):
 
     def apply(self, grad_val):
         return np.maximum(np.minimum(grad_val, self.val), -self.val)
+
+
+class GradClipperByNothing(GradClipper):
+    def __init__(self, ):
+        repr_str = "clipper who does nothing"
+        super().__init__(repr_str)
+
+    def apply(self, grad_val):
+        return deepcopy(grad_val)
 

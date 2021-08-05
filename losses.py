@@ -16,7 +16,7 @@ class Loss():
         Constuctor.
     """
 
-    def __init__(self, name):
+    def __init__(self, name, loss_smoother):
         """ Constructor.
 
         Parameters
@@ -29,9 +29,11 @@ class Loss():
         """
         self.cache = {}
         self.name = name
+        self.loss_smoother = loss_smoother
+        self.repr_str = self.name + " with " + self.loss_smoother.__repr__()
 
     def __repr__(self):
-        return self.name
+        return self.repr_str
 
 
 class CategoricalHingeLoss(Loss):
@@ -55,7 +57,7 @@ class CategoricalHingeLoss(Loss):
         Computes the gradient of the loss function.
     """
 
-    def __init__(self, ):
+    def __init__(self, loss_smoother):
         """ Constructor.
 
         Parameters
@@ -67,7 +69,7 @@ class CategoricalHingeLoss(Loss):
         None
         """
         name = "categorical hinge loss"
-        super().__init__(name)
+        super().__init__(name, loss_smoother)
 
     def compute_loss(self, scores, y):
         """ Computes loss of classifier - also includes the regularization losses from previous layers.
@@ -111,6 +113,10 @@ class CategoricalHingeLoss(Loss):
         margin[range(n), y] -= valid_margin_count
         margin /= n
         self.cache["g"] = deepcopy(margin)
+
+        # smooth loss
+        if self.loss_smoother is not None:
+            loss = self.loss_smoother(loss)
 
         return loss
 
@@ -158,7 +164,7 @@ class CategoricalCrossEntropyLoss(Loss):
         Computes the gradient of the loss function.
     """
 
-    def __init__(self, ):
+    def __init__(self, loss_smoother):
         """ Constructor.
 
         Parameters
@@ -171,7 +177,7 @@ class CategoricalCrossEntropyLoss(Loss):
         None
         """
         name = "categorical cross-entropy loss"
-        super().__init__(name)
+        super().__init__(name, loss_smoother)
 
     def compute_loss(self, scores, y):
         """ Computes loss of classifier - also includes the regularization losses from previous layers.
@@ -203,6 +209,10 @@ class CategoricalCrossEntropyLoss(Loss):
         # compute the loss: average cross-entropy loss and regularization
         loss = np.sum(correct_logprobs) / n
 
+        # smooth loss
+        if self.loss_smoother is not None:
+            loss = self.loss_smoother(loss)
+
         return loss
 
     def grad(self, ):
@@ -226,3 +236,49 @@ class CategoricalCrossEntropyLoss(Loss):
             return deepcopy(self.cache["g"])
         else:
             return None
+
+
+class LossSmoother():
+    def __init__(self, repr_str):
+        self.first_call = True
+        self.repr_str = "loss smoother " + repr_str
+
+    def __call__(self, loss):
+        raise NotImplementedError
+
+    def __repr__(self):
+        return self.repr_str
+
+
+class LossSmootherConstant(LossSmoother):
+    def __init__(self,):
+        repr_str = "constant"
+        super().__init__(repr_str)
+        self.cache = {"loss_smooth": None}
+
+    def __call__(self, loss):
+        if self.first_call:
+            self.first_call = False
+            self.cache["loss_smooth"] = deepcopy(loss)
+        else:
+            self.cache["loss_smooth"] = deepcopy(loss)
+
+        return deepcopy(self.cache["loss_smooth"])
+
+
+class LossSmootherMovingAverage(LossSmoother):
+    def __init__(self, alpha):
+        repr_str = "exp ave"
+        super().__init__(repr_str)
+        self.alpha = alpha
+        self.cache = {"loss_smooth": None}
+
+    def __call__(self, loss):
+        if self.first_call:
+            self.first_call = False
+            self.cache["loss_smooth"] = deepcopy(loss)
+        else:
+            loss_smooth = deepcopy(self.cache["loss_smooth"])
+            self.cache["loss_smooth"] = self.alpha * loss_smooth + (1 - self.alpha) * loss
+
+        return deepcopy(self.cache["loss_smooth"])
