@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 
 
-def plot_losses(history, path_save=None):
+def plot_losses(history, path_save=None, show_val=True):
     plt.plot(history["loss_train"], label="train")
-    plt.plot(history["loss_val"], label="val")
+    if show_val:
+        plt.plot(history["loss_val"], label="val")
     plt.grid()
     plt.title("Loss vs. epochs")
     plt.xlabel("Epochs")
@@ -14,9 +15,10 @@ def plot_losses(history, path_save=None):
     plt.show()
 
 
-def plot_costs(history, path_save=None):
+def plot_costs(history, path_save=None, show_val=True):
     plt.plot(history["cost_train"], label="train")
-    plt.plot(history["cost_val"], label="val")
+    if show_val:
+        plt.plot(history["cost_val"], label="val")
     plt.grid()
     plt.title("Cost vs. epochs")
     plt.xlabel("Epochs")
@@ -27,9 +29,10 @@ def plot_costs(history, path_save=None):
     plt.show()
 
 
-def plot_accuracies(history, path_save=None):
+def plot_accuracies(history, path_save=None, show_val=True):
     plt.plot(history["accuracy_train"], label="train")
-    plt.plot(history["accuracy_val"], label="val")
+    if show_val:
+        plt.plot(history["accuracy_val"], label="val")
     plt.grid()
     plt.title("Accuracy vs. epochs")
     plt.xlabel("Epochs")
