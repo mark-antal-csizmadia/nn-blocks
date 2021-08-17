@@ -29,16 +29,19 @@ A neural network library built from scratch, without dedicated deep learning pac
   + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
     
 
-- k-layer
-    + image classification on the CIFAR-10 dataset
-    + k-layer networks with cross-entropy loss
-    + [cyclical learning rate schedule](https://arxiv.org/abs/1506.01186) for improved learning
-    + [Xavier initialization](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf) for avoiding activation saturation
-    + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
-    + [dropout](https://jmlr.org/papers/v15/srivastava14a.html) and [batch normalization](https://arxiv.org/abs/1502.03167) for avoiding overfitting
-    + data augmentation for avoiding overfitting with [imgaug](https://github.com/aleju/imgaug)
-    + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
-    + [AdaGrad](https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) for more efficient gradient descent optimization
+- <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/k-layer.ipynb">
+    <img align="center" src="https://img.shields.io/badge/Jupyter-k%5Flayer.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
+  </a>
+    
+  + image classification on the CIFAR-10 dataset
+  + k-layer networks with cross-entropy loss
+  + [cyclical learning rate schedule](https://arxiv.org/abs/1506.01186) for improved learning
+  + [Xavier initialization](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf) for avoiding activation saturation
+  + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
+  + [dropout](https://jmlr.org/papers/v15/srivastava14a.html) and [batch normalization](https://arxiv.org/abs/1502.03167) for avoiding overfitting
+  + data augmentation for avoiding overfitting with [imgaug](https://github.com/aleju/imgaug)
+  + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
+  + [AdaGrad](https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) for more efficient gradient descent optimization
     
 - rnn
     + rnn stuff
