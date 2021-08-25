@@ -440,11 +440,14 @@ class Model():
             y_train = [x for i, x in sorted(zip(indices_shuffle, y_train))]
 
             for idx_context, (x_train_context, y_train_context) in enumerate(zip(x_train, y_train)):
-                print(f"starting context: {idx_context + 1}/{len(x_train)} ...")
+                if idx_context % 1000 == 0:
+                    print(f"starting context: {idx_context + 1}/{len(x_train)} ...")
+
                 n_batch = int(x_train_context.shape[0] / batch_size)
 
                 if verbose in [2]:
-                    batches = tqdm(range(n_batch), file=sys.stdout)
+                    if n_step % 5000 == 0:
+                        batches = tqdm(range(n_batch), file=sys.stdout)
                 else:
                     batches = range(n_batch)
 
@@ -481,7 +484,8 @@ class Model():
 
                     if verbose in [2]:
                         str_update = f"batch {b + 1}/{n_batch} (n_step: {n_step}), loss = {data_loss:.4f}"
-                        batches.set_description(str_update)
+                        if n_step % 5000 == 0:
+                            batches.set_description(str_update)
 
                     for callback in callbacks:
                         callback(n_step)
