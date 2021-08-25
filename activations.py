@@ -457,3 +457,47 @@ class TanhActivation(Activation):
         """
         repr_str = "tanh"
         return repr_str
+
+    def backward(self, g_in):
+        """ Backpropagates incoming gradient into the layer, based on the tanh activation.
+
+        Parameters
+        ----------
+        g_in : numpy.ndarray
+            Incoming gradient to the activation.
+            Shape is unknown here, but will usually be
+            (batch size, this layer output dim = next layer input dim)
+
+        Returns
+        -------
+        numpy.ndarray
+            Gradient of activation.
+            Shape is unknown here, but will usually be
+            (batch size, this layer output dim = next layer input dim)
+
+        Notes
+        -----
+        None
+        """
+        a = deepcopy(self.cache["a"])
+        g_out = (1 - np.power(a, 2)) * g_in
+        return g_out
+
+    def __repr__(self):
+        """ Returns the string representation of class.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        repr_str : str
+            The string representation of the class.
+
+        Notes
+        -----
+        None
+        """
+        repr_str = "tanh"
+        return repr_str
