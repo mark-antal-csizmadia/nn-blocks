@@ -40,13 +40,20 @@ A neural network library built from scratch, without dedicated deep learning pac
   + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
   + [dropout](https://jmlr.org/papers/v15/srivastava14a.html) and [batch normalization](https://arxiv.org/abs/1502.03167) for avoiding overfitting
   + data augmentation for avoiding overfitting with [imgaug](https://github.com/aleju/imgaug)
-  + Bayesian hyperparameter search with [hyperopt](https://github.com/hyperopt/hyperopt)
   + [AdaGrad](https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) for more efficient gradient descent optimization
+  
+
+- <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/regression.ipynb">
+    <img align="center" src="https://img.shields.io/badge/Jupyter-regression.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
+  </a>
+  
+    + generating text from Harry Potter books and Donald Trump tweets with RNNs
+    + one-hot encoding, gradient clipping and smoothed loss, etc.
     
-- rnn
-    + rnn stuff
-    + grad clip and loss smoothing
-    
-- regression
-    + regression stuff
+
+- <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/rnn.ipynb">
+    <img align="center" src="https://img.shields.io/badge/Jupyter-rnn.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
+  </a>
+  
+    + linear and non-linear regression 
     
