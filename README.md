@@ -43,17 +43,17 @@ A neural network library built from scratch, without dedicated deep learning pac
   + [AdaGrad](https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) for more efficient gradient descent optimization
   
 
+- <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/rnn.ipynb">
+    <img align="center" src="https://img.shields.io/badge/Jupyter-rnn.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
+  </a>
+
+    + generating text from Harry Potter books and Donald Trump tweets with RNNs
+    + one-hot encoding, gradient clipping and smoothed loss, etc.
+
+
 - <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/regression.ipynb">
     <img align="center" src="https://img.shields.io/badge/Jupyter-regression.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
   </a>
   
-    + generating text from Harry Potter books and Donald Trump tweets with RNNs
-    + one-hot encoding, gradient clipping and smoothed loss, etc.
-    
-
-- <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/rnn.ipynb">
-    <img align="center" src="https://img.shields.io/badge/Jupyter-rnn.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
-  </a>
-  
-    + linear and non-linear regression 
+    + linear and non-linear regression
     
