@@ -46,6 +46,12 @@ class CategoricalHingeLoss(Loss):
     ----------
     cache : dict
         Run-time cache of attibutes such as gradients.
+    loss_smoother : LossSmoother
+        Loss smoother function.
+    name : str
+        The name of the loss.
+    repr_str : str
+        The string representation of the loss.
 
     Methods
     -------
@@ -153,6 +159,12 @@ class CategoricalCrossEntropyLoss(Loss):
     ----------
     cache : dict
         Run-time cache of attibutes such as gradients.
+    loss_smoother : LossSmoother
+        Loss smoother function.
+    name : str
+        The name of the loss.
+    repr_str : str
+        The string representation of the loss.
 
     Methods
     -------
@@ -163,7 +175,6 @@ class CategoricalCrossEntropyLoss(Loss):
     grad()
         Computes the gradient of the loss function.
     """
-
     def __init__(self, loss_smoother):
         """ Constructor.
 
@@ -238,7 +249,106 @@ class CategoricalCrossEntropyLoss(Loss):
             return None
 
 
+class MeanSquaredErrorLoss(Loss):
+    """ MSE loss.
+
+    Attributes
+    ----------
+    cache : dict
+        Run-time cache of attibutes such as gradients.
+    loss_smoother : LossSmoother
+        Loss smoother function.
+    name : str
+        The name of the loss.
+    repr_str : str
+        The string representation of the loss.
+
+    Methods
+    -------
+    __init__()
+        Constuctor.
+    compute_loss(scores, y, layers_reg_loss)
+        Computes loss of classifier.
+    grad()
+        Computes the gradient of the loss function.
+    """
+    def __init__(self, loss_smoother):
+        name = "mse"
+        super().__init__(name, loss_smoother)
+
+    def compute_loss(self, scores, y):
+        """ Computes loss of classifier - also includes the regularization losses from previous layers.
+
+        Parameters
+        ----------
+        scores : numpy.ndarray
+            Scores. Usually from softmax activation.
+            Shape is (batch size, )
+        y : numpy.ndarray
+            True labels.
+            Shape is (batch size, )
+
+        Returns
+        -------
+        loss : float
+            The overall loss of the classifier.
+
+        Notes
+        -----
+        None
+        """
+        # self.cache["g"] = deepcopy(y)
+        n = y.shape[0]
+        loss = np.mean(np.square((y - scores)))
+
+        self.cache["g"] = 2 * (scores - y)
+
+        # smooth loss
+        if self.loss_smoother is not None:
+            loss = self.loss_smoother(loss)
+
+        return loss
+
+    def grad(self, ):
+        """ Computes the gradient of the loss function.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        numpy.ndarray or None
+            None if gradient has not yet been computed.
+            Shape of gradient is (batch size, ). Note that the grad here is just y.
+
+        Notes
+        -----
+        None
+        """
+        if "g" in self.cache.keys():
+            return deepcopy(self.cache["g"])
+        else:
+            return None
+
+
 class LossSmoother():
+    """ Loss smoother parent class. Smooths out abruptly varying losses.
+
+    Attributes
+    ----------
+    first_call : bool
+        If the loss smoother is called for the first time.
+    repr_str : str
+        The string representation of the loss smoother.
+
+    Methods
+    -------
+    __init__()
+        Constuctor.
+    __call__(loss)
+        Computes the smoothed loss.
+    """
     def __init__(self, repr_str):
         self.first_call = True
         self.repr_str = "loss smoother " + repr_str
@@ -251,6 +361,24 @@ class LossSmoother():
 
 
 class LossSmootherConstant(LossSmoother):
+    """ Constant loss smoother. Does not smooth the loss.
+
+    Attributes
+    ----------
+    first_call : bool
+        If the loss smoother is called for the first time.
+    repr_str : str
+        The string representation of the loss smoother.
+    cache : dict
+        Run-time cache of variables needed for computing the smoothed loss.
+
+    Methods
+    -------
+    __init__()
+        Constuctor.
+    __call__(loss)
+        Computes the smoothed loss.
+    """
     def __init__(self,):
         repr_str = "constant"
         super().__init__(repr_str)
@@ -267,6 +395,24 @@ class LossSmootherConstant(LossSmoother):
 
 
 class LossSmootherMovingAverage(LossSmoother):
+    """ Moving average loss smoother.
+
+    Attributes
+    ----------
+    first_call : bool
+        If the loss smoother is called for the first time.
+    repr_str : str
+        The string representation of the loss smoother.
+    cache : dict
+        Run-time cache of variables needed for computing the smoothed loss.
+
+    Methods
+    -------
+    __init__()
+        Constuctor.
+    __call__(loss)
+        Computes the smoothed loss.
+    """
     def __init__(self, alpha):
         repr_str = "exp ave"
         super().__init__(repr_str)

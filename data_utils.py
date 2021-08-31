@@ -53,3 +53,83 @@ def load_label_names():
     None
     """
     return ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+
+
+def generate_linear_regression_dataset(m, b, std, n, seed=None):
+    """ Generate one-dimensional data with linear trend.
+
+    Parameters
+    ----------
+    m : float
+        Slope of line.
+    b : float
+        Y-intercept of line.
+    std : float
+        Standard deviation of random error.
+    n : int
+        The number of data points.
+    seed : int
+        Random seed.
+
+    Returns
+    -------
+    tuple
+        Tuple of numpy.ndarrays of x and y.
+
+    Notes
+    -----
+    None
+    """
+    if seed is not None:
+        np.random.seed(seed)
+    x = np.random.random_sample(n) * 50
+
+    if seed is not None:
+        np.random.seed(seed)
+    e = np.random.randn(n) * std
+
+    y = m*x + b + e
+
+    x = x.reshape(-1, 1)
+    y = y.reshape(-1, 1)
+
+    return x, y
+
+
+def generate_non_linear_regression_dataset(b, std, n, seed=None):
+    """ Generate one-dimensional data with linear trend.
+
+    Parameters
+    ----------
+    b : float
+        Y-intercept of curve.
+    std : float
+        Standard deviation of random error.
+    n : int
+        The number of data points.
+    seed : int
+        Random seed.
+
+    Returns
+    -------
+    tuple
+        Tuple of numpy.ndarrays of x and y.
+
+    Notes
+    -----
+    None
+    """
+    if seed is not None:
+        np.random.seed(seed)
+    x = np.random.random_sample(n) * 10
+
+    if seed is not None:
+        np.random.seed(seed)
+    e = np.random.randn(n) * std
+
+    y = x ** 2 + b + e
+
+    x = x.reshape(-1, 1)
+    y = y.reshape(-1, 1)
+
+    return x, y
