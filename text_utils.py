@@ -365,86 +365,8 @@ def limit_text_length(df, col_name, max_length=140):
     return df_filtered
 
 
-def read_dt_data():
-    path = "data/dt/realdonaldtrump.csv"
-    nrows = 105000
-    df_raw = pd.read_csv(path, delimiter=",", usecols=["content"], nrows=nrows)
-    print(f"loaded {df_raw.size} number of Trump tweets")
-
-    print(df_raw["content"][:154])
-
-    l = ['ه', 'ذ', 'ا', 'م', 'ق', 'د', 'ت',
-         'ب', 'و', 'ع', 'ل', 'ي', 'ة', 'ف', 'س', 'ط', 'ن', 'ص', 'أ', 'ج', 'ز', 'ء', 'ش', 'ر', 'ह',
-         'म', 'भ', 'ा', 'र', 'त', 'आ', 'न', 'े', 'क', 'ल', 'ि', 'ए', '्', 'प', 'ै', 'ं', '।', 'स', 'ँ', 'ु', 'छ', 'ी',
-         'घ', 'ट', 'ो', 'ब',
-         'ग', 'ー',
-         '\u200f', 'º', '\u200e', 'è',
-         '★', 'É', '♡', '«', '»', 'ı', '\x92', 'í', '☞', '•', '《', 'ĺ', 'ñ',
-         '\U0010fc00', 'ō', 'á', 'ğ', 'â', 'ú', ]
-
-    print(df_raw.shape)
-    for e in l:
-        df_raw = df_raw[~df_raw["content"].str.contains(e)]
-    print(df_raw.shape)
-
-    # might take some time
-    df_raw["text_noemo"] = df_raw["content"].apply(lambda x: give_emoji_free_text(x))
-
-    print(df_raw["text_noemo"][:154])
-
-    df_filtered = limit_text_length(df_raw, col_name="text_noemo", max_length=139)
-
-    print(df_filtered["text_noemo"][:100])
-    print(df_filtered["text_noemo"][13])
-    print(len(df_filtered["text_noemo"][13]))
-    print(df_filtered["text_noemo"][98])
-    print(len(df_filtered["text_noemo"][98]))
-
-    # might take some time
-    eol = "."
-    df_filtered["text_noemo_eol"] = df_filtered["text_noemo"].apply(lambda x: add_eol_to_text(x, eol=eol))
-
-    print(df_filtered["text_noemo_eol"][:100])
-    print(df_filtered["text_noemo_eol"][13])
-    print(len(df_filtered["text_noemo_eol"][13]))
-    print(df_filtered["text_noemo_eol"][98])
-    print(len(df_filtered["text_noemo_eol"][98]))
-
-    dataset = df_filtered["text_noemo_eol"].to_list()
-
-    return dataset
-
-
-def pre_process_data(dataset):
-    chars = unique_characters(dataset)
-    print(f"The number of unique characters is {chars.size}")
-    print("The unique characters in all contexts are:")
-    print(chars)
-    onehot_encoder = OneHotEncoder(length=len(chars))
-
-    decoded_dataset = make_decoded_dataset(dataset)
-    print(decoded_dataset[0][:100])
-    encoded_dataset = make_encoded_dataset(decoded_dataset, chars)
-    print(encoded_dataset[0][:100])
-    onehot_encoded_dataset = make_one_hot_encoded_dataset(encoded_dataset, onehot_encoder)
-    print(onehot_encoded_dataset[0][:100])
-
-    print(f"There are {len(onehot_encoded_dataset)} conetexts in the dataset.")
-    print(f"The context at idx 0 has {onehot_encoded_dataset[0].shape[0]} characters"
-          f" and each character is one-hot encoded into a vector of length {onehot_encoded_dataset[0].shape[1]}")
-
-    eol = "."
-    print(f"The chosen EOL is at index {np.argwhere(eol == chars)[0]} in the unique characters list.")
-    encoded_eol = encode([eol], chars)
-    onehot_encoded_eol = onehot_encoder(encoded_eol, encode=True)[0]
-    print(f"The one-hot encoded EOL vector looks like this:")
-    print(onehot_encoded_eol)
-
-    return onehot_encoded_dataset, encoded_dataset, chars, onehot_encoder, eol
-
-
-def synthetize(rnn, eol, chars, onehot_encoder):
-    gen_times = 100
+def synthetize(rnn, eol, chars, onehot_encoder, ts, path_out):
+    gen_times = 10
 
     for gen_time in range(gen_times):
         char_init = eol
@@ -452,8 +374,6 @@ def synthetize(rnn, eol, chars, onehot_encoder):
         decode_lambda = lambda e: decode(e, chars)
         # n_step is just a dummy variable here for teh callback to work.
         n_step = 1
-        ts = 140
-        path_out = "synth_callback_dt_final.txt"
 
         synthetizer = CharByCharSynhthetizer(rnn, char_init, encode_lambda, onehot_encoder, decode_lambda,
                                              ts, n_step, path_out)
