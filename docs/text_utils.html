@@ -1,0 +1,487 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>text_utils module &mdash; nn-blocks  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="viz_utils module" href="viz_utils.html" />
+    <link rel="prev" title="test_regularizers module" href="test_regularizers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nn-blocks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nn-blocks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="activations.html">activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_utils.html">data_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grad_check.html">grad_check module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializers.html">initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers.html">layers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="losses.html">losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lr_schedules.html">lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html">metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opt_utils.html">opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizers.html">optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regularizers.html">regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_activations.html">test_activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_batch_normalization_layer.html">test_batch_normalization_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dense_layer.html">test_dense_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dropout_layer.html">test_dropout_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_initializers.html">test_initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_losses.html">test_losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_lr_schedules.html">test_lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_metrics.html">test_metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_models.html">test_models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_opt_utils.html">test_opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_optimizers.html">test_optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_regularizers.html">test_regularizers module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">text_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viz_utils.html">viz_utils module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nn-blocks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">nn-blocks</a> &raquo;</li>
+        
+      <li>text_utils module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/text_utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-text_utils">
+<span id="text-utils-module"></span><h1>text_utils module<a class="headerlink" href="#module-text_utils" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="text_utils.CharByCharSynhthetizer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">CharByCharSynhthetizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rnn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char_init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_lambda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onehot_encoder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode_lambda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.CharByCharSynhthetizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Synthetize text (char-by-char) from a trained RNN using a one-hot encoder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="text_utils.CharByCharSynhthetizer.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lenght</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.CharByCharSynhthetizer.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weighted sampling of next character based on RNN predicitons.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="text_utils.OneHotEncoder">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">OneHotEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.OneHotEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>One-hot encoder class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="text_utils.OneHotEncoder.length">
+<span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#text_utils.OneHotEncoder.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the one-hot encoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="text_utils.OneHotEncoder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.OneHotEncoder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="text_utils.OneHotEncoder.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.OneHotEncoder.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode a sequence of integers into a one-hot encoded vectors,
+or decode a sequence of one-hot encoded vectors into a
+sequence of integers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="text_utils.OneHotEncoder.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.OneHotEncoder.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the string representation of class.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.add_eol_to_text">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">add_eol_to_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.add_eol_to_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.char_to_idx">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">char_to_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">char</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.char_to_idx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a char to an index from the encoder np array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>char</strong> (<em>str</em>) – A char.</p></li>
+<li><p><strong>chars</strong> (<em>np.ndarray</em>) – All chars.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index repre of char, of shape (,).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.decode">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a sequence of indices into a sequence of chars based on the encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>encoding</strong> (<em>np.ndarray</em>) – The sequence of index representation of the chars, of shape (n_chars,)</p></li>
+<li><p><strong>chars</strong> (<em>np.ndarray</em>) – All chars.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>decoding</strong> – The sequence of chars, of shape (n_chars,)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.encode">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode a sequence of chars into a sequence of indices based on the encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>decoding</strong> (<em>np.ndarray</em>) – The sequence of chars, of shape (n_chars,)</p></li>
+<li><p><strong>chars</strong> (<em>np.ndarray</em>) – All chars.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>encoding</strong> – The sequence of index representation of the chars, of shape (n_chars,)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.give_emoji_free_text">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">give_emoji_free_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.give_emoji_free_text" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://stackoverflow.com/a/50602709">https://stackoverflow.com/a/50602709</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.idx_to_char">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">idx_to_char</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.idx_to_char" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an index to char in the encoder np array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>int</em>) – The index repr of a char.</p></li>
+<li><p><strong>chars</strong> (<em>np.ndarray</em>) – All chars.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The char.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.limit_text_length">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">limit_text_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">140</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.limit_text_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.make_decoded_dataset">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">make_decoded_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.make_decoded_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a dataset of strings into a list of characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset</strong> (<em>list</em>) – A list of strings (contexts) maybe of varying size.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>decoded_dataset</strong> – A list of lists (contexts) where a context is a list of characters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.make_encoded_dataset">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">make_encoded_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decoded_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.make_encoded_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode a dataset of list of charcters into a list of integers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>decoded_dataset</strong> (<em>list</em>) – A list of lists (contexts) where a context is a list of characters.</p></li>
+<li><p><strong>chars</strong> (<em>np.ndarray</em>) – All chars.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>encoded_dataset</strong> – A list of lists (contexts) where a context is a list of integers.
+An integer corresponds to its index in chars.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.make_one_hot_encoded_dataset">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">make_one_hot_encoded_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoded_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onehot_encoder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.make_one_hot_encoded_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>One-hot encode a dataset of list of integers into a list of one-hot encoded vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>encoded_dataset</strong> (<em>list</em>) – A list of lists (contexts) where a context is a list of integers.
+An integer corresponds to its index in chars.</p></li>
+<li><p><strong>onehot_encoder</strong> (<a class="reference internal" href="#text_utils.OneHotEncoder" title="text_utils.OneHotEncoder"><em>OneHotEncoder</em></a>) – A one-hot encoder initilaized with chars (all unique characters in the dataset).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>onehot_encoded_dataset</strong> – A list of one-hot encoded vectors (contexts).
+The index of 1s in the vectors corresponds to the index of the character in chars.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.synthetize">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">synthetize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rnn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onehot_encoder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.synthetize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="text_utils.unique_characters">
+<span class="sig-prename descclassname"><span class="pre">text_utils.</span></span><span class="sig-name descname"><span class="pre">unique_characters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_utils.unique_characters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of unique characters in a data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>list</em>) – A list of strings. The strings may be of different lenghts.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of unique characters in all of the strings in data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="viz_utils.html" class="btn btn-neutral float-right" title="viz_utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="test_regularizers.html" class="btn btn-neutral float-left" title="test_regularizers module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Mark Antal Csizmadia.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

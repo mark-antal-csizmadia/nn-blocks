@@ -1,0 +1,620 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>models module &mdash; nn-blocks  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="opt_utils module" href="opt_utils.html" />
+    <link rel="prev" title="metrics module" href="metrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nn-blocks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nn-blocks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="activations.html">activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_utils.html">data_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grad_check.html">grad_check module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializers.html">initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers.html">layers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="losses.html">losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lr_schedules.html">lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html">metrics module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opt_utils.html">opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizers.html">optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regularizers.html">regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_activations.html">test_activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_batch_normalization_layer.html">test_batch_normalization_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dense_layer.html">test_dense_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dropout_layer.html">test_dropout_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_initializers.html">test_initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_losses.html">test_losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_lr_schedules.html">test_lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_metrics.html">test_metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_models.html">test_models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_opt_utils.html">test_opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_optimizers.html">test_optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_regularizers.html">test_regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_utils.html">text_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viz_utils.html">viz_utils module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nn-blocks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">nn-blocks</a> &raquo;</li>
+        
+      <li>models module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-models">
+<span id="models-module"></span><h1>models module<a class="headerlink" href="#module-models" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="models.Model">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Model class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.layers">
+<span class="sig-name descname"><span class="pre">layers</span></span><a class="headerlink" href="#models.Model.layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of layers of model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.reg_loss">
+<span class="sig-name descname"><span class="pre">reg_loss</span></span><a class="headerlink" href="#models.Model.reg_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sum of the regularization losses of all layers of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.compiled">
+<span class="sig-name descname"><span class="pre">compiled</span></span><a class="headerlink" href="#models.Model.compiled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag showing if the model is compiled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.optimizer">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><a class="headerlink" href="#models.Model.optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The optimizer used for fitting the model to the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or <a class="reference internal" href="optimizers.html#optimizers.Optimizer" title="optimizers.Optimizer">Optimizer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.loss">
+<span class="sig-name descname"><span class="pre">loss</span></span><a class="headerlink" href="#models.Model.loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>The loss function of the optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or <a class="reference internal" href="losses.html#losses.Loss" title="losses.Loss">Loss</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.metrics_dict">
+<span class="sig-name descname"><span class="pre">metrics_dict</span></span><a class="headerlink" href="#models.Model.metrics_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionary of the training and validation metric values over training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.loss_dict">
+<span class="sig-name descname"><span class="pre">loss_dict</span></span><a class="headerlink" href="#models.Model.loss_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionary of the training and validation loss values over training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.cost_dict">
+<span class="sig-name descname"><span class="pre">cost_dict</span></span><a class="headerlink" href="#models.Model.cost_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionary of the training and validation cost values over training.
+Note that cost = data loss + regularization loss</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><a class="headerlink" href="#models.Model.metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of metrics for evaluating the model during training and validation over training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.Model.lr_dict">
+<span class="sig-name descname"><span class="pre">lr_dict</span></span><a class="headerlink" href="#models.Model.lr_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionary of the learning rate values over update steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward propagates signal through the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Back-propagates signal through the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.get_reg_loss">
+<span class="sig-name descname"><span class="pre">get_reg_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.get_reg_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the overall regularization loss of the layers in the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.get_gradients">
+<span class="sig-name descname"><span class="pre">get_gradients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.get_gradients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of all parameters of all layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.get_trainable_params">
+<span class="sig-name descname"><span class="pre">get_trainable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.get_trainable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all trainable parameters of all layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.set_trainable_params">
+<span class="sig-name descname"><span class="pre">set_trainable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.set_trainable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets all trainable parameters of all layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.compile_model">
+<span class="sig-name descname"><span class="pre">compile_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.compile_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compiles the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits the model to the data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the string representation of class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Back-propagates signal through the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>numpy.ndarray</em>) – Labels of the input data to model, shape is (batch_size, ).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Iterates over layers in descending order in the self.layers list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">compile_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compiles the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optimizer</strong> (<a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None"><em>None</em></a><em> or </em><a class="reference internal" href="optimizers.html#optimizers.Optimizer" title="optimizers.Optimizer"><em>Optimizer</em></a>) – The optimizer used for fitting the model to the data.</p></li>
+<li><p><strong>loss</strong> (<a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None"><em>None</em></a><em> or </em><a class="reference internal" href="losses.html#losses.Loss" title="losses.Loss"><em>Loss</em></a>) – The loss function of the optimization.</p></li>
+<li><p><strong>metrics</strong> (<a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None"><em>None</em></a><em> or </em><em>list</em>) – The list of metrics for evaluating the model during training and validation over training.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Sets self.compiled to True. If self.compiled is not called, self.fit will raise AssertionError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.compute_metrics">
+<span class="sig-name descname"><span class="pre">compute_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.compute_metrics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aug_func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits the model to the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>numpy.ndarray</em>) – Training data to model of shape (batch_size, in_dim) where in_dim is
+the input dimension of the first layer of the Model.</p></li>
+<li><p><strong>y_train</strong> (<em>numpy.ndarray</em>) – True labels of training data.
+Shape is (batch_size, )</p></li>
+<li><p><strong>x_val</strong> (<em>numpy.ndarray</em>) – Validation data to model of shape (batch_size, in_dim) where in_dim is
+the input dimension of the first layer of the Model.</p></li>
+<li><p><strong>y_val</strong> (<em>numpy.ndarray</em>) – True labels of validation data.
+Shape is (batch_size, )</p></li>
+<li><p><strong>n_epochs</strong> (<em>int</em>) – The number of epochs to train for.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – The batch size of the mini-batch gradient descent algorithm.
+x_train.shape[0] has to be divisible by batch_size</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – The degree to which training progress is printed in the console.
+2: print all, 1: print some, 0: do not print</p></li>
+<li><p><strong>aug_func</strong> (<em>func</em>) – Data augmentation function using imgaug.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The history of training and validation loss, metrics, and learning rates.
+dict is {<a href="#id3"><span class="problematic" id="id4">**</span></a>self.metrics_dict, <a href="#id5"><span class="problematic" id="id6">**</span></a>self.loss_dict, <a href="#id7"><span class="problematic" id="id8">**</span></a>self.lr_dict}</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If the model has not yet been complied with the self.compiled method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Model.fit_rnn">
+<span class="sig-name descname"><span class="pre">fit_rnn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.Model.fit_rnn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward propagates signal through the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.ndarray</em>) – Input data to model, shape is (batch_size, in_dim)
+where in_dim is the input dimension of the first layer of the model.</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Dict of params for forward pass such as train or test mode, seed, etc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>scores</strong> – Activation of last layer of the model - the scores of the network.
+Shape is (batch_size, out_dim) where out_dim is the output
+dimension of the last layer of the model - usually same as
+the number of classes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Iterates over layers in ascending order in the self.layers list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">get_gradients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of all parameters of all layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>grads</strong> – The list of dictionaries of gradients of all parameters of all layers of the model.
+At idx is the dictionary of gradients of layer idx in the self.layers list.
+A list has two keys - dw and db.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Iterates over layers in ascending order in the self.layers list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">get_reg_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the overall regularization loss of the layers in the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The sum of the regularization losses of all layers of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">get_trainable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all trainable parameters of all layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>trainable_params</strong> – The list of dictionaries of the trainable parameters of all layers of the model.
+At idx is the dictionary of trainable parameters of layer idx in the self.layers list.
+A list has two keys - w and b.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Iterates over layers in ascending order in the self.layers list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">set_trainable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets all trainable parameters of all layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trainable_params</strong> (<em>list</em>) – The list of dictionaries of the trainable parameters of all layers of the model.
+At idx is the dictionary of trainable parameters of layer idx in the self.layers list.
+A list has two keys - w and b.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Iterates over layers in ascending order in the self.layers list.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="opt_utils.html" class="btn btn-neutral float-right" title="opt_utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="metrics.html" class="btn btn-neutral float-left" title="metrics module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Mark Antal Csizmadia.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

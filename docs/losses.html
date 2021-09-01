@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>losses module &mdash; nn-blocks  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lr_schedules module" href="lr_schedules.html" />
+    <link rel="prev" title="layers module" href="layers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nn-blocks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nn-blocks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="activations.html">activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_utils.html">data_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grad_check.html">grad_check module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializers.html">initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers.html">layers module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lr_schedules.html">lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html">metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opt_utils.html">opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizers.html">optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regularizers.html">regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_activations.html">test_activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_batch_normalization_layer.html">test_batch_normalization_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dense_layer.html">test_dense_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dropout_layer.html">test_dropout_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_initializers.html">test_initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_losses.html">test_losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_lr_schedules.html">test_lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_metrics.html">test_metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_models.html">test_models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_opt_utils.html">test_opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_optimizers.html">test_optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_regularizers.html">test_regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_utils.html">text_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viz_utils.html">viz_utils module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nn-blocks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">nn-blocks</a> &raquo;</li>
+        
+      <li>losses module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/losses.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-losses">
+<span id="losses-module"></span><h1>losses module<a class="headerlink" href="#module-losses" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">CategoricalCrossEntropyLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss_smoother</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#losses.Loss" title="losses.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">losses.Loss</span></code></a></p>
+<p>Categorical cross-entropy loss.
+Usually preceeded by a linear activation.
+For multi-class classification.
+Inherits everything from class Loss.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time cache of attibutes such as gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.loss_smoother">
+<span class="sig-name descname"><span class="pre">loss_smoother</span></span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.loss_smoother" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loss smoother function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#losses.LossSmoother" title="losses.LossSmoother">LossSmoother</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.repr_str">
+<span class="sig-name descname"><span class="pre">repr_str</span></span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.repr_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The string representation of the loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.compute_loss">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers_reg_loss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.compute_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes loss of classifier - also includes the regularization losses from previous layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.CategoricalCrossEntropyLoss.grad">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalCrossEntropyLoss.grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the gradient of the loss function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes loss of classifier - also includes the regularization losses from previous layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scores</strong> (<em>numpy.ndarray</em>) – Scores. Usually from softmax activation.
+Shape is (batch size, number of classes)</p></li>
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – True labels.
+Shape is (batch size, )</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loss</strong> – The overall loss of the classifier.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the gradient of the loss function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None if gradient has not yet been computed.
+Shape of gradient is (batch size, ). Note that the grad here is just y.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray or <a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">CategoricalHingeLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss_smoother</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalHingeLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#losses.Loss" title="losses.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">losses.Loss</span></code></a></p>
+<p>Categorical Hinge loss for realizing an SVM classifier.
+Usually preceeded by a linear activation.
+For multi-class classification.
+Inherits everything from class Loss.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#losses.CategoricalHingeLoss.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time cache of attibutes such as gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.loss_smoother">
+<span class="sig-name descname"><span class="pre">loss_smoother</span></span><a class="headerlink" href="#losses.CategoricalHingeLoss.loss_smoother" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loss smoother function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#losses.LossSmoother" title="losses.LossSmoother">LossSmoother</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#losses.CategoricalHingeLoss.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.repr_str">
+<span class="sig-name descname"><span class="pre">repr_str</span></span><a class="headerlink" href="#losses.CategoricalHingeLoss.repr_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The string representation of the loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalHingeLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.compute_loss">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers_reg_loss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalHingeLoss.compute_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes loss of classifier - also includes the regularization losses from previous layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.CategoricalHingeLoss.grad">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.CategoricalHingeLoss.grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the gradient of the loss function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes loss of classifier - also includes the regularization losses from previous layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scores</strong> (<em>numpy.ndarray</em>) – Scores. Usually from linear activation.
+Shape is (number of data points, number of classes)</p></li>
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – True labels.
+Shape is (number of data points, )</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loss</strong> – The overall loss of the classifier.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the gradient of the loss function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None if gradient has not yet been computed.
+Shape of gradient is (batch size, number of classes)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray or <a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.Loss">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">Loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_smoother</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.Loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Loss parent class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.Loss.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#losses.Loss.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time cache of attributes such as gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.Loss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.Loss.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.LossSmoother">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">LossSmoother</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repr_str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmoother" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Loss smoother parent class. Smooths out abruptly varying losses.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmoother.first_call">
+<span class="sig-name descname"><span class="pre">first_call</span></span><a class="headerlink" href="#losses.LossSmoother.first_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the loss smoother is called for the first time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmoother.repr_str">
+<span class="sig-name descname"><span class="pre">repr_str</span></span><a class="headerlink" href="#losses.LossSmoother.repr_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The string representation of the loss smoother.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.LossSmoother.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmoother.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.LossSmoother.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmoother.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the smoothed loss.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.LossSmootherConstant">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">LossSmootherConstant</span></span><a class="headerlink" href="#losses.LossSmootherConstant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#losses.LossSmoother" title="losses.LossSmoother"><code class="xref py py-class docutils literal notranslate"><span class="pre">losses.LossSmoother</span></code></a></p>
+<p>Constant loss smoother. Does not smooth the loss.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmootherConstant.first_call">
+<span class="sig-name descname"><span class="pre">first_call</span></span><a class="headerlink" href="#losses.LossSmootherConstant.first_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the loss smoother is called for the first time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmootherConstant.repr_str">
+<span class="sig-name descname"><span class="pre">repr_str</span></span><a class="headerlink" href="#losses.LossSmootherConstant.repr_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The string representation of the loss smoother.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmootherConstant.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#losses.LossSmootherConstant.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time cache of variables needed for computing the smoothed loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.LossSmootherConstant.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmootherConstant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.LossSmootherConstant.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmootherConstant.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the smoothed loss.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.LossSmootherMovingAverage">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">LossSmootherMovingAverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmootherMovingAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#losses.LossSmoother" title="losses.LossSmoother"><code class="xref py py-class docutils literal notranslate"><span class="pre">losses.LossSmoother</span></code></a></p>
+<p>Moving average loss smoother.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmootherMovingAverage.first_call">
+<span class="sig-name descname"><span class="pre">first_call</span></span><a class="headerlink" href="#losses.LossSmootherMovingAverage.first_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the loss smoother is called for the first time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmootherMovingAverage.repr_str">
+<span class="sig-name descname"><span class="pre">repr_str</span></span><a class="headerlink" href="#losses.LossSmootherMovingAverage.repr_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The string representation of the loss smoother.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.LossSmootherMovingAverage.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#losses.LossSmootherMovingAverage.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time cache of variables needed for computing the smoothed loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.LossSmootherMovingAverage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmootherMovingAverage.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.LossSmootherMovingAverage.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.LossSmootherMovingAverage.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the smoothed loss.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">losses.</span></span><span class="sig-name descname"><span class="pre">MeanSquaredErrorLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss_smoother</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.MeanSquaredErrorLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#losses.Loss" title="losses.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">losses.Loss</span></code></a></p>
+<p>MSE loss.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run-time cache of attibutes such as gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.loss_smoother">
+<span class="sig-name descname"><span class="pre">loss_smoother</span></span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.loss_smoother" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loss smoother function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#losses.LossSmoother" title="losses.LossSmoother">LossSmoother</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.repr_str">
+<span class="sig-name descname"><span class="pre">repr_str</span></span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.repr_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The string representation of the loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.compute_loss">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers_reg_loss</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.compute_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes loss of classifier.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="losses.MeanSquaredErrorLoss.grad">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#losses.MeanSquaredErrorLoss.grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the gradient of the loss function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes loss of classifier - also includes the regularization losses from previous layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scores</strong> (<em>numpy.ndarray</em>) – Scores. Usually from softmax activation.
+Shape is (batch size, )</p></li>
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – True labels.
+Shape is (batch size, )</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loss</strong> – The overall loss of the classifier.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the gradient of the loss function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None if gradient has not yet been computed.
+Shape of gradient is (batch size, ). Note that the grad here is just y.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray or <a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="lr_schedules.html" class="btn btn-neutral float-right" title="lr_schedules module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="layers.html" class="btn btn-neutral float-left" title="layers module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Mark Antal Csizmadia.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

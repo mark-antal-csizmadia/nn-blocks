@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>metrics module &mdash; nn-blocks  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="models module" href="models.html" />
+    <link rel="prev" title="lr_schedules module" href="lr_schedules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nn-blocks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nn-blocks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="activations.html">activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_utils.html">data_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grad_check.html">grad_check module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializers.html">initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layers.html">layers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="losses.html">losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lr_schedules.html">lr_schedules module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opt_utils.html">opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizers.html">optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regularizers.html">regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_activations.html">test_activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_batch_normalization_layer.html">test_batch_normalization_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dense_layer.html">test_dense_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dropout_layer.html">test_dropout_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_initializers.html">test_initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_losses.html">test_losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_lr_schedules.html">test_lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_metrics.html">test_metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_models.html">test_models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_opt_utils.html">test_opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_optimizers.html">test_optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_regularizers.html">test_regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_utils.html">text_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viz_utils.html">viz_utils module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nn-blocks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">nn-blocks</a> &raquo;</li>
+        
+      <li>metrics module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/metrics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-metrics">
+<span id="metrics-module"></span><h1>metrics module<a class="headerlink" href="#module-metrics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="metrics.AccuracyMetrics">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">metrics.</span></span><span class="sig-name descname"><span class="pre">AccuracyMetrics</span></span><a class="headerlink" href="#metrics.AccuracyMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#metrics.Metrics" title="metrics.Metrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">metrics.Metrics</span></code></a></p>
+<p>Accuracy metrics class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="metrics.AccuracyMetrics.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#metrics.AccuracyMetrics.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metrics.AccuracyMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#metrics.AccuracyMetrics.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metrics.AccuracyMetrics.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#metrics.AccuracyMetrics.compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the accuracy of inferred numerical labels when compared to their true counterparts.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the accuracy of inferred numerical labels when compared to their true counterparts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – True labels.
+Shape is (number of data points, )</p></li>
+<li><p><strong>scores</strong> (<em>numpy.ndarray</em>) – Activation of last layer of the model - the scores of the network.
+Shape is (batch_size, out_dim) where out_dim is the output
+dimension of the last layer of the model - usually same as
+the number of classes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The accuracy of inferred numerical labels when compared to their true counterparts.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If y.shape is not the same as y_hat.shape</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="metrics.MeanSquaredErrorMetrics">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">metrics.</span></span><span class="sig-name descname"><span class="pre">MeanSquaredErrorMetrics</span></span><a class="headerlink" href="#metrics.MeanSquaredErrorMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#metrics.Metrics" title="metrics.Metrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">metrics.Metrics</span></code></a></p>
+<p>MSE metrics class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="metrics.MeanSquaredErrorMetrics.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#metrics.MeanSquaredErrorMetrics.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metrics.MeanSquaredErrorMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#metrics.MeanSquaredErrorMetrics.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metrics.MeanSquaredErrorMetrics.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#metrics.MeanSquaredErrorMetrics.compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the MSE of inferred numerical labels when compared to their true counterparts.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the MSE of inferred numerical labels when compared to their true counterparts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – True labels.
+Shape is (number of data points, )</p></li>
+<li><p><strong>scores</strong> (<em>numpy.ndarray</em>) – Activation of last layer of the model - the scores of the network.
+Shape is (batch_size, out_dim) where out_dim is the output
+dimension of the last layer of the model - usually same as
+the number of classes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The accuracy of inferred numerical labels when compared to their true counterparts.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If y.shape is not the same as y_hat.shape</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="metrics.Metrics">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">metrics.</span></span><span class="sig-name descname"><span class="pre">Metrics</span></span><a class="headerlink" href="#metrics.Metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Metrics parent class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="metrics.Metrics.None">
+<span class="sig-name descname"><span class="pre">None</span></span><a class="headerlink" href="#metrics.Metrics.None" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metrics.Metrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#metrics.Metrics.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constuctor.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="models.html" class="btn btn-neutral float-right" title="models module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="lr_schedules.html" class="btn btn-neutral float-left" title="lr_schedules module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Mark Antal Csizmadia.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

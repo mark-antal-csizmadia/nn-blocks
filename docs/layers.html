@@ -1,0 +1,1726 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>layers module &mdash; nn-blocks  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="losses module" href="losses.html" />
+    <link rel="prev" title="initializers module" href="initializers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nn-blocks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nn-blocks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="activations.html">activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_utils.html">data_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grad_check.html">grad_check module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializers.html">initializers module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">layers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="losses.html">losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lr_schedules.html">lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html">metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opt_utils.html">opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizers.html">optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regularizers.html">regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_activations.html">test_activations module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_batch_normalization_layer.html">test_batch_normalization_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dense_layer.html">test_dense_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_dropout_layer.html">test_dropout_layer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_initializers.html">test_initializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_losses.html">test_losses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_lr_schedules.html">test_lr_schedules module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_metrics.html">test_metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_models.html">test_models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_opt_utils.html">test_opt_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_optimizers.html">test_optimizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_regularizers.html">test_regularizers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text_utils.html">text_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viz_utils.html">viz_utils module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nn-blocks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">nn-blocks</a> &raquo;</li>
+        
+      <li>layers module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/layers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-layers">
+<span id="layers-module"></span><h1>layers module<a class="headerlink" href="#module-layers" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="layers.BatchNormalization">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">layers.</span></span><span class="sig-name descname"><span class="pre">BatchNormalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">momentum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_in</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>g_in.shape = (batch_size, out_dim)
+in_dim = out_dim of batch norm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.shape = (batch_size, in_dim)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_beta">
+<span class="sig-name descname"><span class="pre">get_beta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the beta parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The beta parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_dbeta">
+<span class="sig-name descname"><span class="pre">get_dbeta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_dbeta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of beta parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of beta parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_dgamma">
+<span class="sig-name descname"><span class="pre">get_dgamma</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_dgamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of gamma parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of gamma parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_gamma">
+<span class="sig-name descname"><span class="pre">get_gamma</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gamma parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The gamma parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_learnable_params">
+<span class="sig-name descname"><span class="pre">get_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_learnable_params_grads">
+<span class="sig-name descname"><span class="pre">get_learnable_params_grads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_learnable_params_grads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.get_reg_loss">
+<span class="sig-name descname"><span class="pre">get_reg_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.get_reg_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the regularization loss of the weight parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The regularization loss of the weight parameters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.if_has_learnable_params">
+<span class="sig-name descname"><span class="pre">if_has_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.if_has_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the layer has learnable params. Dense layer does have learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the layer has learnable params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>has_learnable_params</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.set_beta">
+<span class="sig-name descname"><span class="pre">set_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.set_beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the beta parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>beta</strong> (<em>numpy.ndarray</em>) – The beta parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.set_gamma">
+<span class="sig-name descname"><span class="pre">set_gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.set_gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the gamma parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gamma</strong> (<em>numpy.ndarray</em>) – The gamma parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.BatchNormalization.set_learnable_params">
+<span class="sig-name descname"><span class="pre">set_learnable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">learnable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.BatchNormalization.set_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="layers.Dense">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">layers.</span></span><span class="sig-name descname"><span class="pre">Dense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_regularizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Dense (fully-connected) layer class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.in_dim">
+<span class="sig-name descname"><span class="pre">in_dim</span></span><a class="headerlink" href="#layers.Dense.in_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.out_dim">
+<span class="sig-name descname"><span class="pre">out_dim</span></span><a class="headerlink" href="#layers.Dense.out_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.kernel_initializer">
+<span class="sig-name descname"><span class="pre">kernel_initializer</span></span><a class="headerlink" href="#layers.Dense.kernel_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameter initializer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="initializers.html#initializers.Initializer" title="initializers.Initializer">Initializer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.bias_initializer">
+<span class="sig-name descname"><span class="pre">bias_initializer</span></span><a class="headerlink" href="#layers.Dense.bias_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bias parameter initializer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="initializers.html#initializers.Initializer" title="initializers.Initializer">Initializer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.kernel_regularizer">
+<span class="sig-name descname"><span class="pre">kernel_regularizer</span></span><a class="headerlink" href="#layers.Dense.kernel_regularizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameter regularizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="regularizers.html#regularizers.Regularizer" title="regularizers.Regularizer">Regularizer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.activation">
+<span class="sig-name descname"><span class="pre">activation</span></span><a class="headerlink" href="#layers.Dense.activation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Layer activation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="activations.html#activations.Activation" title="activations.Activation">Activation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.w">
+<span class="sig-name descname"><span class="pre">w</span></span><a class="headerlink" href="#layers.Dense.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameters, of shape (in_dim, out_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.b">
+<span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#layers.Dense.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bias parameters, of shape (1, out_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#layers.Dense.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>The run-time cache for storing activations, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.Dense.grads">
+<span class="sig-name descname"><span class="pre">grads</span></span><a class="headerlink" href="#layers.Dense.grads" title="Permalink to this definition">¶</a></dt>
+<dd><p>The run-time cache for storing gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_regularizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_w">
+<span class="sig-name descname"><span class="pre">get_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the weight parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_b">
+<span class="sig-name descname"><span class="pre">get_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bias parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.set_w">
+<span class="sig-name descname"><span class="pre">set_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.set_w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the weight parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.set_b">
+<span class="sig-name descname"><span class="pre">set_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.set_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the bias parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_dw">
+<span class="sig-name descname"><span class="pre">get_dw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_dw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of weight parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_db">
+<span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients bias parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_reg_loss_w">
+<span class="sig-name descname"><span class="pre">get_reg_loss_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_reg_loss_w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the regularization loss of the weight parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_reg_grad_w">
+<span class="sig-name descname"><span class="pre">get_reg_grad_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_reg_grad_w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the regularization gradient of the weight parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward-propagates signals through the layer and its activation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_in</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Back-propagates gradients through the the activation of the layer and then the layer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_learnable_params">
+<span class="sig-name descname"><span class="pre">get_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.set_learnable_params">
+<span class="sig-name descname"><span class="pre">set_learnable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">learnable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.set_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_learnable_params_grads">
+<span class="sig-name descname"><span class="pre">get_learnable_params_grads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_learnable_params_grads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the gradients of the learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the string representation of class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_in</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Back-propagates gradients through the the activation of the layer and then the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_in</strong> (<em>numpy.ndarray</em>) – Incoming (from later layers or losses) gradients, of shape (batch_size, out_dim).</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Dict of params for forward pass such as train or test mode, seed, etc. Unused in Dense layer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>g_out</strong> – Outgoing (to previous layers, or input data) gradients, of shape (batch_size, in_dim).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>g_in.shape = (batch_size, out_dim)
+self.cache[“x”].shape = (batch_size, in_dim)
+self.w.shape=(in_dim, out_dim)
+self.b.shape=(1, out_dim)
+dw.shape=(in_dim, out_dim)
+db.shape=(1, out_dim)
+g_out.shape = (batch_size, in_dim)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward-propagates signals through the layer and its activation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.ndarray</em>) – Input data to layer of shape (batch_size, in_dim).</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Dict of params for forward pass such as train or test mode, seed, etc. Unused in Dense layer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>a</strong> – Activation of linear transformation, of shape (batch_size, out_dim).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>x.shape = (batch_size, in_dim)
+self.w.shape=(in_dim, out_dim)
+self.b.shape=(1, out_dim)
+z.shape = (batch_size, out_dim)
+a.shape = (batch_size, out_dim)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bias parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The bias parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of bias parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of bias parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_dw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of weight parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of weight parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">get_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dict of learanble params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">get_learnable_params_grads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the gradients of the learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dict of grads of learanble params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">get_reg_grad_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the regularization gradient of the weight parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the regularization gradient of the weight parameters.
+Float 0.0 if does not exist yet - since added later doesn’t matter if
+0.0 is float or matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.get_reg_loss">
+<span class="sig-name descname"><span class="pre">get_reg_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.get_reg_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the regularization loss of the weight parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The regularization loss of the weight parameters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">get_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the weight parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The weight parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dense.if_has_learnable_params">
+<span class="sig-name descname"><span class="pre">if_has_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dense.if_has_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the layer has learnable params. Dense layer does have learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the layer has learnable params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>has_learnable_params</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">set_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the bias parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> (<em>numpy.ndarray</em>) – The bias parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">set_learnable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">learnable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>learnable_params</strong> (<em>dict</em>) – Dict of learnable params.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">set_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the weight parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>w</strong> (<em>numpy.ndarray</em>) – The weight parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="layers.Dropout">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">layers.</span></span><span class="sig-name descname"><span class="pre">Dropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Inv dropout - scaling at train time</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dropout.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_in</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dropout.backward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dropout.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dropout.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.Dropout.if_has_learnable_params">
+<span class="sig-name descname"><span class="pre">if_has_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.Dropout.if_has_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="layers.RNN">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">layers.</span></span><span class="sig-name descname"><span class="pre">RNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_h_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_h_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_o_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_o_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_regularizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_o</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Many-to-many RNN layer for character-to-character sequence modelling.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.in_dim">
+<span class="sig-name descname"><span class="pre">in_dim</span></span><a class="headerlink" href="#layers.RNN.in_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.out_dim">
+<span class="sig-name descname"><span class="pre">out_dim</span></span><a class="headerlink" href="#layers.RNN.out_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.hidden_dim">
+<span class="sig-name descname"><span class="pre">hidden_dim</span></span><a class="headerlink" href="#layers.RNN.hidden_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hidden dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.kernel_h_initializer">
+<span class="sig-name descname"><span class="pre">kernel_h_initializer</span></span><a class="headerlink" href="#layers.RNN.kernel_h_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameter initializer of the hidden neurons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="initializers.html#initializers.Initializer" title="initializers.Initializer">Initializer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.bias_h_initializer">
+<span class="sig-name descname"><span class="pre">bias_h_initializer</span></span><a class="headerlink" href="#layers.RNN.bias_h_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bias parameter initializer of the hidden neurons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="initializers.html#initializers.Initializer" title="initializers.Initializer">Initializer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.kernel_o_initializer">
+<span class="sig-name descname"><span class="pre">kernel_o_initializer</span></span><a class="headerlink" href="#layers.RNN.kernel_o_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameter initializer of the output neurons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="initializers.html#initializers.Initializer" title="initializers.Initializer">Initializer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.bias_o_initializer">
+<span class="sig-name descname"><span class="pre">bias_o_initializer</span></span><a class="headerlink" href="#layers.RNN.bias_o_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bias parameter initializer of the output neurons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="initializers.html#initializers.Initializer" title="initializers.Initializer">Initializer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.kernel_regularizer">
+<span class="sig-name descname"><span class="pre">kernel_regularizer</span></span><a class="headerlink" href="#layers.RNN.kernel_regularizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameter regularizer for all parameters.
+Separate for h and o neurons. Not used yet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="regularizers.html#regularizers.Regularizer" title="regularizers.Regularizer">Regularizer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.activation_h">
+<span class="sig-name descname"><span class="pre">activation_h</span></span><a class="headerlink" href="#layers.RNN.activation_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Layer activation of hidden neurons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="activations.html#activations.Activation" title="activations.Activation">Activation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.activation_o">
+<span class="sig-name descname"><span class="pre">activation_o</span></span><a class="headerlink" href="#layers.RNN.activation_o" title="Permalink to this definition">¶</a></dt>
+<dd><p>Layer activation of output neurons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="activations.html#activations.Activation" title="activations.Activation">Activation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.u">
+<span class="sig-name descname"><span class="pre">u</span></span><a class="headerlink" href="#layers.RNN.u" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameters dotted with the input vector,
+of shape (in_dim, hidden_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.w">
+<span class="sig-name descname"><span class="pre">w</span></span><a class="headerlink" href="#layers.RNN.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameters dotted with the pre-activation hidden vector,
+of shape (hidden_dim, hidden_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.b">
+<span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#layers.RNN.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bias parameters added to the input-previous hidden vector
+linear combination, of shape (1, hidden_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.v">
+<span class="sig-name descname"><span class="pre">v</span></span><a class="headerlink" href="#layers.RNN.v" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weight parameters dotted with the activated hidden vector,
+of shape (hidden_dim, out_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.c">
+<span class="sig-name descname"><span class="pre">c</span></span><a class="headerlink" href="#layers.RNN.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bias parameters added to the dotted activated hidden vector,
+of shape (1, out_dim)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.cache">
+<span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#layers.RNN.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>The run-time cache for storing activations, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.grads">
+<span class="sig-name descname"><span class="pre">grads</span></span><a class="headerlink" href="#layers.RNN.grads" title="Permalink to this definition">¶</a></dt>
+<dd><p>The run-time cache for storing gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.h_shape">
+<span class="sig-name descname"><span class="pre">h_shape</span></span><a class="headerlink" href="#layers.RNN.h_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hidden vector shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="layers.RNN.has_learnable_params">
+<span class="sig-name descname"><span class="pre">has_learnable_params</span></span><a class="headerlink" href="#layers.RNN.has_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>If layer has learnable/trainable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_initializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_regularizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_u">
+<span class="sig-name descname"><span class="pre">get_u</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_u" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the u parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_w">
+<span class="sig-name descname"><span class="pre">get_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the w parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_b">
+<span class="sig-name descname"><span class="pre">get_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the b parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_v">
+<span class="sig-name descname"><span class="pre">get_v</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the v parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_c">
+<span class="sig-name descname"><span class="pre">get_c</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the c parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.set_u">
+<span class="sig-name descname"><span class="pre">set_u</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.set_u" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the u parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.set_w">
+<span class="sig-name descname"><span class="pre">set_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.set_w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the w parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.set_b">
+<span class="sig-name descname"><span class="pre">set_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.set_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the b parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.set_v">
+<span class="sig-name descname"><span class="pre">set_v</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.set_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the v parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.set_c">
+<span class="sig-name descname"><span class="pre">set_c</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.set_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the c parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_du">
+<span class="sig-name descname"><span class="pre">get_du</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_du" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of u parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_dw">
+<span class="sig-name descname"><span class="pre">get_dw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_dw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of w parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_db">
+<span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients b parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_dv">
+<span class="sig-name descname"><span class="pre">get_dv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_dv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of v parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_dc">
+<span class="sig-name descname"><span class="pre">get_dc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_dc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients c parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_learnable_params">
+<span class="sig-name descname"><span class="pre">get_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.set_learnable_params">
+<span class="sig-name descname"><span class="pre">set_learnable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">learnable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.set_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_learnable_params_grads">
+<span class="sig-name descname"><span class="pre">get_learnable_params_grads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_learnable_params_grads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the gradients of the learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.get_reg_loss">
+<span class="sig-name descname"><span class="pre">get_reg_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.get_reg_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the regularization loss of the weight parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.if_has_learnable_params">
+<span class="sig-name descname"><span class="pre">if_has_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.if_has_learnable_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if layer has learnable params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x</span></em>, <em class="sig-param"><span class="pre">\*\*params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward-propagates signals through the layer and its activation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">g_in</span></em>, <em class="sig-param"><span class="pre">\*\*params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Back-propagates gradients through the the activation of the layer and then the layer.
+Note that the RNN layer implements backpropagation through time (BPTT).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the string representation of class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_in</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Back-propagates gradients through the the activation of the layer and then the layer.
+Note that the RNN layer implements backpropagation through time (BPTT).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_in</strong> (<em>numpy.ndarray</em>) – Incoming (from later layers or losses) gradients, of shape (batch_size, out_dim).</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Dict of params for forward pass such as train or test mode, seed, etc. Unused in Dense layer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>g_out</strong> – Outgoing (to previous layers, or input data) gradients, of shape (batch_size, in_dim).
+Not implemented yet!</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Shapes are commented below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward-propagates signals through the layer and its activation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.ndarray</em>) – Input data to layer of shape (batch_size, in_dim).</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Dict of params for forward pass such as train or test mode, seed, etc.
+Unused in RNN layer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>p</strong> – Activation of the RNN layer output neurons, of shape (batch_size, out_dim).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Shapes are commented below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">get_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the b parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The b parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">get_c</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the c parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The c parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of b parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of b parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">get_dc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of c parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of c parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">get_du</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of u parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of u parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">get_dv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of v parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of v parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">get_dw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gradients of w parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ret</strong> – The gradients of w parameters, or None if does not exist yet.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a> or numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">get_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dict of learanble params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">get_learnable_params_grads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the gradients of the learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dict of grads of learanble params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">get_reg_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">get_u</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the u parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The u parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">get_v</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the v parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The v parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">get_w</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the w parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The w parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">if_has_learnable_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the layer has learnable params. Dense layer does have learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the layer has learnable params.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>has_learnable_params</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="layers.RNN.reset_hidden_state">
+<span class="sig-name descname"><span class="pre">reset_hidden_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#layers.RNN.reset_hidden_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">set_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the b parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> (<em>numpy.ndarray</em>) – The b parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">set_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the c parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>c</strong> (<em>numpy.ndarray</em>) – The c parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">set_learnable_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">learnable_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all learnable params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>learnable_params</strong> (<em>dict</em>) – Dict of learnable params.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">set_u</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the u parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>u</strong> (<em>numpy.ndarray</em>) – The u parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">set_v</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the v parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>numpy.ndarray</em>) – The v parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">set_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the w parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>w</strong> (<em>numpy.ndarray</em>) – The w parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#metrics.Metrics.None" title="metrics.Metrics.None">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="losses.html" class="btn btn-neutral float-right" title="losses module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="initializers.html" class="btn btn-neutral float-left" title="initializers module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Mark Antal Csizmadia.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
