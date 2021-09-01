@@ -6,6 +6,8 @@
 Welcome to nn-blocks's documentation!
 =====================================
 
+A neural network library built from scratch, without dedicated deep learning packages. Training and testing deep neural networks and utilizing deep learning best practices for multi-class classification with fully connected neural networks, text generation with recurrent neural networks, and regression with fully connected networks.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
