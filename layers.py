@@ -447,17 +447,19 @@ class Dropout():
 
     def forward(self, x, **params):
         mode = params["mode"]
-        #seed = params["seed"]
+        if "seed" in params.keys():
+            seed = params["seed"]
         assert mode in ["train", "test"]
 
         if mode == "train":
-            #np.random.seed(seed)
+            if "seed" in params.keys():
+                np.random.seed(seed)
             mask = (np.random.rand(*x.shape) < self.p) / self.p
             self.cache["mask"] = deepcopy(mask)
             # drop it boi!
             out = x * mask
         else:
-            out = x
+            out = deepcopy(x)
 
         return deepcopy(out)
 

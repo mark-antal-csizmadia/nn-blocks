@@ -4,7 +4,7 @@ from activations import LinearActivation, ReLUActivation, SoftmaxActivation
 from regularizers import L2Regularizer
 from layers import Dense, BatchNormalization
 from models import Model
-from losses import CategoricalCrossEntropyLoss, CategoricalHingeLoss
+from losses import CategoricalCrossEntropyLoss, CategoricalHingeLoss, LossSmootherConstant
 from grad_check import numerical_gradient_check_model
 
 
@@ -43,7 +43,7 @@ def build_model_2_layer_with_bn_with_loss_cross_entropy(reg_rate, in_dim, seed):
     ]
 
     model = Model(layers)
-    loss = CategoricalCrossEntropyLoss()
+    loss = CategoricalCrossEntropyLoss(loss_smoother=LossSmootherConstant())
 
     return model, loss
 

@@ -2,11 +2,17 @@
 
 # nn-blocks
 
-## Introduction
+## Contents
 
-A neural network library built from scratch, without dedicated deep learning packages. Training and testing deep neural networks and utilizing deep learning best practices for multi-class classification with fully connected neural networks and text generation with recurrent neural networks.
+* [Introduction](#introduction)
+* [Notebooks](#notebooks)
+* [Documentation](#documentation)
 
-## Notebooks
+## Introduction <a class="anchor" id="introduction"></a>
+
+A neural network library built from scratch, without dedicated deep learning packages. Training and testing deep neural networks and utilizing deep learning best practices for multi-class classification with fully connected neural networks, text generation with recurrent neural networks, and regression with fully connected networks.
+
+## Notebooks <a class="anchor" id="notebooks"></a>
 
 - <a href="https://nbviewer.jupyter.org/github/mark-antal-csizmadia/nn-blocks/blob/main/one-layer.ipynb">
     <img align="center" src="https://img.shields.io/badge/Jupyter-one%5Flayer.ipynb-informational?style=flat&logo=Jupyter&logoColor=F37626&color=blue" />
@@ -57,3 +63,18 @@ A neural network library built from scratch, without dedicated deep learning pac
   
     + linear and non-linear regression
     
+  
+## Documentation <a class="anchor" id="documentation"></a>
+
+The documentation was built using [Sphinx](https://www.sphinx-doc.org/en/master/). To generate the documentation locally, do:
+
+```
+bash
+cd nn-blocks
+conda env create -f environment.yml
+conda activate nn_blocks_env
+cd docs
+make clean
+make html
+google-chrome _build/html/index.html
+```
