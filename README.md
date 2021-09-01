@@ -66,7 +66,9 @@ A neural network library built from scratch, without dedicated deep learning pac
   
 ## Documentation <a class="anchor" id="documentation"></a>
 
-The documentation was built using [Sphinx](https://www.sphinx-doc.org/en/master/). To generate the documentation locally, do:
+The documentation, which was built with [Sphinx](https://www.sphinx-doc.org/en/master/), is hosted [here](https://mark-antal-csizmadia.github.io/nn-blocks/index.html).
+
+To generate it locally, do the following:
 
 ```
 bash
