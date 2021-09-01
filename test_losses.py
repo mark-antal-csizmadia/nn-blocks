@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from activations import SoftmaxActivation, LinearActivation
-from losses import CategoricalCrossEntropyLoss, CategoricalHingeLoss
+from losses import CategoricalCrossEntropyLoss, CategoricalHingeLoss, LossSmootherConstant
 
 
 def test_categoical_cross_entropy_loss():
@@ -12,7 +12,7 @@ def test_categoical_cross_entropy_loss():
 
     y = np.array([2])
 
-    categoical_cross_entropy_loss = CategoricalCrossEntropyLoss()
+    categoical_cross_entropy_loss = CategoricalCrossEntropyLoss(loss_smoother=LossSmootherConstant())
 
     loss = categoical_cross_entropy_loss.compute_loss(scores, y)
     np.testing.assert_almost_equal(loss, 1.04, decimal=2)
@@ -33,7 +33,7 @@ def test_categoical_cross_entropy_loss():
 
     y = np.random.randint(low=0, high=out_dim, size=(batch_size,))
 
-    categoical_cross_entropy_loss = CategoricalCrossEntropyLoss()
+    categoical_cross_entropy_loss = CategoricalCrossEntropyLoss(loss_smoother=LossSmootherConstant())
 
     loss = categoical_cross_entropy_loss.compute_loss(scores, y)
 
@@ -63,7 +63,7 @@ def test_categorical_hinge_loss():
 
     y = np.array([2])
 
-    categoical_hinge_loss = CategoricalHingeLoss()
+    categoical_hinge_loss = CategoricalHingeLoss(loss_smoother=LossSmootherConstant())
 
     loss = categoical_hinge_loss.compute_loss(scores, y)
     np.testing.assert_almost_equal(loss, 1.58, decimal=2)
@@ -97,7 +97,7 @@ def test_categorical_hinge_loss():
 
     y = np.random.randint(low=0, high=out_dim, size=(batch_size,))
 
-    categoical_hinge_loss = CategoricalHingeLoss()
+    categoical_hinge_loss = CategoricalHingeLoss(loss_smoother=LossSmootherConstant())
 
     loss = categoical_hinge_loss.compute_loss(scores, y)
 

@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from activations import SoftmaxActivation, LinearActivation, ReLUActivation, TanhActivation
-from losses import CategoricalCrossEntropyLoss
+from losses import CategoricalCrossEntropyLoss, LossSmootherConstant
 from grad_check import eval_numerical_gradient_array, eval_numerical_gradient
 
 
@@ -56,7 +56,7 @@ def test_softmax_activation():
     def func(x):
         softmax_activation = SoftmaxActivation()
         a = softmax_activation.forward(x)
-        categoical_cross_entropy_loss = CategoricalCrossEntropyLoss()
+        categoical_cross_entropy_loss = CategoricalCrossEntropyLoss(loss_smoother=LossSmootherConstant())
         loss = categoical_cross_entropy_loss.compute_loss(a, y)
         return loss
 
@@ -74,7 +74,7 @@ def test_softmax_activation():
 
     softmax_activation = SoftmaxActivation()
     a = softmax_activation.forward(x)
-    categoical_cross_entropy_loss = CategoricalCrossEntropyLoss()
+    categoical_cross_entropy_loss = CategoricalCrossEntropyLoss(loss_smoother=LossSmootherConstant())
     loss = categoical_cross_entropy_loss.compute_loss(a, y)
     loss_grad = categoical_cross_entropy_loss.grad()
     g_out = softmax_activation.backward(loss_grad)

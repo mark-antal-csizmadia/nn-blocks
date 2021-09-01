@@ -1,6 +1,7 @@
 import numpy as np
 from lr_schedules import LRConstantSchedule
-from optimizers import SGDOptimizer
+from optimizers import SGDOptimizer, AdaGradOptimizer
+from opt_utils import GradClipperByNothing
 
 
 def test_sgd_optimizer():
@@ -39,7 +40,7 @@ def test_sgd_optimizer():
     lr_initial = 0.6
     lr_schedule = LRConstantSchedule(lr_initial)
 
-    sgd_optimizer = SGDOptimizer(lr_schedule=lr_schedule)
+    sgd_optimizer = SGDOptimizer(lr_schedule=lr_schedule, grad_clipper=GradClipperByNothing())
     updated_trainable_weights = sgd_optimizer.apply_grads(trainable_weights, grads)
 
     for layer_weights, layer_grads, updated_weights in \
