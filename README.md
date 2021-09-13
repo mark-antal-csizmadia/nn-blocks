@@ -71,7 +71,6 @@ The documentation, which was built with [Sphinx](https://www.sphinx-doc.org/en/m
 To generate it locally, do the following:
 
 ```
-bash
 cd nn-blocks
 conda env create -f environment.yml
 conda activate nn_blocks_env
